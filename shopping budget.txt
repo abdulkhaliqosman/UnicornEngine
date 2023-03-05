@@ -1,0 +1,11 @@
+total memory (imagine a 1GiB ram machine) (our mixamo girl is already 20mb lol)
+
+1GiB = 8 * 128 * 1024 * 1024
+
+2 * 128 MiB we let it be scratch memory (pretend we are making a console game)
+1 * 128 MiB we use for FixedAllocator
+4 * 128 MiB we use for BuddyAllocator
+1 * 128 MiB we use for mem debug. 
+
+small allocator: FixedAllocator 64 byte for 1 mat44f. 2 million ints or matrices are still a lot
+large allocator: BuddyAllocator with 1KiB minimum size. 

@@ -1,0 +1,134 @@
+- SHOPPING LIST UNDER JASON GREGORY
+
+    0. 3rd Party SDKs (/extern/)
+        DirectX [Must] (comes with windows)
+        Bullet or Mucujo [Must]
+        IMGUI
+        QT
+
+    1. Platform Independence Layer [Must][1+3+0+5=9] (also /core/)
+        1. Platform Detection          [Wont]   (windows platform only)
+        2. Primitive Data Types        [Wont]   (https://en.cppreference.com/w/cpp/types/integer)
+        3. Collections & Iterators     [Should] (/core/container/)
+            a. tuple (array)
+            b. list (vector)
+            c. dict (unordered map)
+            d. ordereddict
+        4. File System                 [Must]   (/core/filesystem/)
+        5. Networking                  [Should] (/core/networking/)
+        6. Hi-Res Timer                [Wont]
+        7. Threading Library           [Should] (/core/thread/)
+        8. Graphics Wrappers           [Wont]   (windows platform only)
+        9. Physics / Collision Wrapper [Wont]   (windows platform only)
+
+    2. Core systems [Must][1+6+4+7=18] (/core/)
+        1.  Module Start-Up & Shut-Down       [Wont]   (???)
+        2.  Assertions                        [Should] (/core/debug/assert)
+        3.  Unit Testing                      [Could]  (/core/test/unittest) (maybe catch or gtest)
+        4.  Memory Allocation                 [Should] (/core/memory/)
+        5.  Math Library                      [Must]   (/core/math/)
+        6.  Strings & Hashed String Ids       [Wont]
+        7.  Debug Printing & Logging          [Should] (/core/debug/logging/)
+        8.  Localization Services             [Wont]
+        9.  Movie Player                      [Wont]
+        10. Parsers (CSV, JSON, etc.)         [Could]  (/core/parser/)    (maybe rapidjson)
+        11. Profiling / Stats Gathering       [Should] (/core/profiling/) (optick)
+        12. Engine Config                     [Wont]   (???)
+        13. Random Number Generator           [Wont]
+        14. Curves & Surfaces Library         [Could]
+        15. RTTI / Reflection & Serialization [Should] (/core/serializer/)
+        16. Object Handles / Unique Ids       [Should] (/core/objects/)
+        17. Asynchronous File I/O             [Could]
+        18. Memory Card I/O                   [Wont]   (surprised this is a thing)
+
+    3. Resources (Game Assets) [Must][4+2+2+1=9] (/assets/)
+        1. Resource Manager   [Must]   (/assets/assetmanager/)
+        2. Model              [Must]   (/assets/model/)
+        3. Texture            [Must]   (/assets/texture/)
+        4. Material           [Should] (/assets/material/)
+        5. Font               [Wont]
+        6. Skeleton           [Must]   (/assets/skeleton/)
+        7. Collision          [Could]  (/assets/texture/)
+        8. Physics Parameters [Could]  (/assets/physics/)
+        9. Game World / Map   [Should] (/assets/scene/)
+
+    4. Low Level Renderer [Must][3+3+2+2=10] (/render/)
+        1.  Materials & Shaders          [Must]   (/render/shader/)
+        2.  Static & Dynamic Lighting    [Could]  (/render/lighting/)
+        3.  Camera                       [Should] (/render/camera/)
+        4.  Texts & Fonts                [Wont]
+        5.  Primitive Submission         [Wont]   (???)
+        6.  Viewports                    [Should] (/render/viewport/)
+        7.  Texture & Surface Management [Should] (/render/texturemanager/)
+        8.  Debug Drawing (Lines etc.)   [Could]  (/render/debugdraw/)
+        9.  Graphics Device Interface    [Must]   (/render/rendermanager/)
+        10. Skeletal Mesh Rendering      [Must]   (overlap with animation)
+
+    5. Profiling & Debugging [Should][0+2+0+1=3] (/debug/ & /profiling/)
+        1. Recording & Playback       [Wont]
+        2. Memory & Performance Stats [Should] (overlap with 2.11 /core/profiling/)
+        3. In-Game Menus or Console   [Should] (/debug/imgui/)
+
+    6. Collision & Physics [Should][0+4+1+1=6] (/physics/)
+        1. Forces & Constraints          [Should] (???) (constraints wont)
+        2. Ray / Shape Casting (Queries) [Could]
+        3. Rigid Bodies                  [Should] (/physics/rigidbody/)
+        4. Phantoms                      [Wont]   (???)
+        5. Shapes / Colliders            [Should] (/physics/collider)
+        6. Physics / Collision World     [Should] (/physics/physicsworld/)
+
+    7. Human Interface Devices [Should][0+1+1+0=2] (/*/input/)
+        1. Game Specific Interface [Could]  (/gameplay/input/)
+        2. Physical Device I/O     [Should] (/core/input/)
+
+    8. Scene Graph / Culling Optimizations [Wont]
+        1. Spatial Hash (BSP Tree, kd-Tree) [Wont]
+        2. Occlusion & PVS                  [Wont]
+        3. LOD System                       [Wont]
+
+    9. Visual Effects [Could][0+0+1+5=6] (/vfx/)
+        1. Light map & Dynamic Shadows      [Wont]
+        2. HDR Lighting                     [Wont]
+        3. PRT Lighting, Subsurface Scatter [Wont]  (what is PRT Lighting?)
+        4. Particle & Decal Systems         [Could] (/vfx/particles/)
+        5. Post Effects                     [Wont]  (what kind of post effects?)
+        6. Environment Mapping              [Wont]  (what is this?)
+
+    10. Skeletal Animation [Must] (/animation/)
+        1.  Animaion State Tree & Layers   [Must]   (/animation/animstates/)
+        2.  Inverse Kinematics             [Could]  (/animation/ik/)
+        3.  Game-Specific Post-Processing  [Wont]
+        4.  LERP & Additive Blending       [Should] (/animation/interpolation/) (lerp should, blending could)
+        5.  Animation Playback             [Could]  (/animation/animtracks/)
+        6.  Sub-Skeletal Animation         [Wont]
+        7.  Animation Decompression        [Wont]
+        8.  Skeletal Mesh Rendering        [Must]   (overlap with render 4.10)
+        9.  Ragdoll Physics                [Could]
+        10. Hierarchical Object Attachment [Should] 
+
+    11. Online Multiplayer [Should] (/networking/)
+        Match-Making & Game Management [Could]
+
+    12. Audio [Wont]
+
+    13. Front End [Could][0+0+3+3=6] (/ui/) (I dont want to build another phoenix :( )
+        1. Heads-Up Display        [Could] (/ui/hud)
+        2. Full Motion Video       [Wont]
+        3. In-Game Cinematics      [Wont]
+        4. In-Game UI              [Could] (/ui/uimanager/)
+        5. In-Game Menus           [Could] (/ui/menu/)
+        6. Wrappers / Attract Mode [Wont] (TIL the demo video in arcades is called attract mode)
+
+    14. Gameplay Foundations [Must][2+0+1+4] (/core/) (I dont have a good name for this)
+        1. High Level Game Flow System/FSM  [Should] (/core/gameflow/) (we need a simple startup/loop/shutdown )
+        2. Scripting System                 [Wont]
+        3. Static World Elements            [Wont]
+        4. Dynamic Game Object Model        [Must]   (/core/gameobject/)
+        5. Real-Time Agent-Based Simulation [Wont]   (I want to but I dont have time to make Meta AI)
+        6. Event / Messaging System         [Must]   (A legit one not a dumb callback system)
+        7. World Loading / Streaming        [Could] 
+
+    15. Game-Specific Subsystems
+
+
+- PERSONAL SHOPPING LIST

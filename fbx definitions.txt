@@ -1,0 +1,82 @@
+FBXHeaderExtension
+FileId
+CreationTime
+Creator
+GlobalSettings
+Documents
+References
+Definitions
+    GlobalSettings
+    NodeAttribute
+        FbxSkeleton
+            Color: ColorRGB (float3)
+            Size: double
+            LimbLength: double
+    Model
+        FbxNode
+            QuaternionInterpolate: enum
+            RotationOffset: Vector3D
+            RotationPivot: Vector3D
+            ScalingOffset: Vector3D
+            ScalingPivot: Vector3D
+            TranslationActive: bool
+            TranslationMin: Vector3D
+            TranslationMax: Vector3D
+            TranslationMinX: bool
+            TranslationMinY: bool
+            TranslationMinZ: bool
+            TranslationMaxX: bool
+            TranslationMaxY: bool
+            TranslationMaxZ: bool
+    Material
+        FbxSurfacePhong
+    Texture
+        FbxFileTexture
+    Video
+        FbxVideo
+    AnimationStack
+        FbxAnimStack
+    AnimationLayer
+        FbxAnimLayer
+    Geometry
+        FbxMesh
+    AnimationCurveMode
+        FbxAnimCurveMode
+    Pose
+    Deformer
+    AnimationCurve
+Objects
+    NodeAttribute
+        LimbNode
+    Geometry
+        Mesh
+            Vertices
+            PolygonVertexIndex
+            Edges
+            GeometryVersion
+            LayerElementNormal
+                Version
+                Name
+                MappingInformationType
+                ReferenceInformationType
+                Normals
+                NormalsW
+            LayerElementUV
+                Version
+                Name
+                MappingInformationType
+                ReferenceInformationType
+                UV
+                UVIndex
+            LayerElementMaterial
+                Version
+                Name
+                MappingInformationType
+                ReferenceInformationType
+                Materials
+            Layer
+    Model
+        Version
+        Properties70
+        Shading
+        Culling
