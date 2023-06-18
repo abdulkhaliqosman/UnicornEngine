@@ -2,7 +2,7 @@
 # Top-level CMake project file, do global configuration
 # and include sub-projects here.
 #
-cmake_minimum_required (VERSION 3.14)
+cmake_minimum_required (VERSION 3.20)
 
 project (UnicornEngine)
 
@@ -28,13 +28,15 @@ set(UNICORN_CONTENT
 	"content/"
 	)
 
-file(GLOB files "${UNICORN_SHADERS_DIR}/*.hlsl" )
-foreach(file ${files})
-	file(RELATIVE_PATH RelPath ${CMAKE_CURRENT_SOURCE_DIR} ${file})
-	message("from: ${RelPath}, to: ${CMAKE_CURRENT_BINARY_DIR}/src/${RelPath}")
+# file(GLOB files "${UNICORN_SHADERS_DIR}/*.hlsl" )
+# foreach(file ${files})
+# 	file(RELATIVE_PATH RelPath ${CMAKE_CURRENT_SOURCE_DIR} ${file})
+# 	message("from: ${RelPath}, to: ${CMAKE_CURRENT_BINARY_DIR}/src/${RelPath}")
+# 
+# 	 configure_file("${file}"
+# 	 			   "${CMAKE_CURRENT_BINARY_DIR}/src/${RelPath}"
+# 	 			   COPYONLY
+# 	 			   )
+# endforeach()
 
-	 configure_file("${file}"
-	 			   "${CMAKE_CURRENT_BINARY_DIR}/src/${RelPath}"
-	 			   COPYONLY
-	 			   )
-endforeach()
+# install(TARGETS UnicornClient DESTINATION "bin")

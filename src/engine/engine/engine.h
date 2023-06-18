@@ -2,27 +2,28 @@
 
 #include "core/coreheader.h"
 #include "render/manager/rendermanager.h"
+#include "editor/server/editornetworkserver.h"
 
 namespace uniengine
 {
-    struct EngineParams
-    {
-        unicore::CoreParams coreParams;
-    };
-
 	class Engine
 	{
 	public:
-		Engine(const EngineParams& params);
-		void Run();
+		Engine();
 
-		inline unicore::Core& GetCore() { return m_Core; }
-
-	private:
         void Startup();
         void Update();
         void Shutdown();
-		unicore::Core m_Core;
+
+		inline unirender::RenderManager& GetRenderManager() { return m_RenderManager; }
+
+	private:
 		unirender::RenderManager m_RenderManager;
+
+		EditorNetworkServer m_EditorServer;
+		ucc::MemoryManager m_MemoryManager;
+		ucc::ThreadManager m_ThreadManager;
+		ucc::InputManager m_InputManager;
+		ucc::NetworkThread m_NetworkThread;
 	};
 }

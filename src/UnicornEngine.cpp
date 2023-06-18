@@ -3,14 +3,39 @@
 #include <Windows.h>
 #include "engine/engineheader.h"
 
+#if defined(UNICORN_EDITOR)
+#include "editor/editor/editor.h"
+#endif
+
+#if defined(UNICORN_CLIENT)
+#include "client/clientheader.h"
+#endif
+
 int APIENTRY WinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
     _In_ LPTSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
-    unicore::WindowsParams winParams{ hInstance, hPrevInstance, lpCmdLine, nCmdShow };
-    uniengine::Engine engine(uniengine::EngineParams{ unicore::CoreParams{ winParams } });
-    engine.Run();
+
+    uce::Engine engine;
+
+#if defined(UNICORN_EDITOR)
+    unieditor::Editor editor;
+    editor.SetEngine(&engine);
+
+    editor.Run();
+#endif
+
+#if defined(UNICORN_CLIENT)
+    ucl::WindowsParams winParams{ hInstance, hPrevInstance, lpCmdLine, nCmdShow };
+    ucl::WindowsClient client(winParams);
+
+    client.SetEngine(&engine);
+    
+    client.Run();
+#endif
+
+
 
 	return 0;
 }

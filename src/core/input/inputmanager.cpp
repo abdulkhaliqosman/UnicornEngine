@@ -1,5 +1,4 @@
 #include "inputmanager.h"
-#include "core/core.h"
 #include "core/memory/memory.h"
 
 #include <hidusage.h>
@@ -8,24 +7,18 @@
 
 namespace unicore
 {
-    InputManager::InputManager(Core& core)
-        :m_Core(core)
-    {
-
-    }
-
     void InputManager::Startup()
     {
         RAWINPUTDEVICE Rid[2];
 
         Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;          // HID_USAGE_PAGE_GENERIC
         Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;              // HID_USAGE_GENERIC_MOUSE
-        Rid[0].dwFlags = RIDEV_NOLEGACY;    // adds mouse and also ignores legacy mouse messages
+        Rid[0].dwFlags = 0;
         Rid[0].hwndTarget = nullptr;
 
         Rid[1].usUsagePage = HID_USAGE_PAGE_GENERIC;          // HID_USAGE_PAGE_GENERIC
         Rid[1].usUsage = HID_USAGE_GENERIC_KEYBOARD;              // HID_USAGE_GENERIC_KEYBOARD
-        Rid[1].dwFlags = RIDEV_NOLEGACY;    // adds keyboard and also ignores legacy keyboard messages
+        Rid[1].dwFlags = 0;
         Rid[1].hwndTarget = nullptr;
 
         if (RegisterRawInputDevices(Rid, 2, sizeof(Rid[0])) == FALSE)
@@ -33,7 +26,7 @@ namespace unicore
             //registration failed. Call GetLastError for the cause of the error
         }
 
-        m_Core.GetWindowManager().RegisterRawInputEvent([this](WPARAM wParam, LPARAM lParam) { this->OnRawInputEvent(wParam, lParam); });
+        // m_Core.GetWindowsClient().RegisterRawInputEvent([this](WPARAM wParam, LPARAM lParam) { this->OnRawInputEvent(wParam, lParam); });
     }
 
     void InputManager::Update()
@@ -51,7 +44,7 @@ namespace unicore
         UINT dwSize;
 
         GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &dwSize, sizeof(RAWINPUTHEADER));
-        LPBYTE lpb = ucNewArray(m_Core, BYTE, dwSize);
+        LPBYTE lpb = ucNewArray(BYTE, dwSize);
         if (lpb == nullptr)
         {
             return;
@@ -101,6 +94,6 @@ namespace unicore
             // std::cout << (szTempOutput) << std::endl;
         }
 
-        ucDeleteArray(m_Core, lpb, dwSize);
+        ucDeleteArray(lpb, dwSize);
     }
 }

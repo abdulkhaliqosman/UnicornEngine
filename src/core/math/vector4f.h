@@ -3,7 +3,6 @@
 #include <intrin.h>
 
 #include <immintrin.h>
-#include "core/math/math.h"
 
 namespace unicore
 {

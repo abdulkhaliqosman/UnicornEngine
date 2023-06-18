@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include "core/core/core.h"
 
 namespace unicore
 {
@@ -12,7 +11,7 @@ namespace unicore
 
 	namespace memory
 	{
-		inline void* Allocate(Core& core, size_t size)
+		inline void* Allocate(size_t size)
 		{
 			return new uint8_t[size]; //TODO: a real allocator
 		}
@@ -24,13 +23,13 @@ namespace unicore
 		}
 
 		template<typename T>
-		inline T* ConstructAndAllocate(Core& core, size_t count)
+		inline T* ConstructAndAllocate(size_t count)
 		{
-			void* buffer = Allocate(core, sizeof(T) * count);
+			void* buffer = Allocate(sizeof(T) * count);
 			return Construct<T>(buffer, count);
 		}
 
-		inline void Deallocate(Core& core, void* vptr)
+		inline void Deallocate(void* vptr)
 		{
 			delete[] static_cast<uint8_t*>(vptr); //TODO: a real allocator
 		}
@@ -45,16 +44,16 @@ namespace unicore
 		}
 
 		template<typename T>
-		inline void DestroyAndDeallocate(Core& core, T* tptr, size_t count)
+		inline void DestroyAndDeallocate(T* tptr, size_t count)
 		{
 			Destroy(tptr, count);
-			Deallocate(core, tptr);
+			Deallocate(tptr);
 		}
 	}
 }
 
-#define ucNewArray(core, type, count) unicore::memory::ConstructAndAllocate<type>(core, count)
-#define ucNew(core, type) NewArray(core, type, 1)
+#define ucNewArray(type, count) unicore::memory::ConstructAndAllocate<type>(count)
+#define ucNew(type) ucNewArray(type, 1)
 
-#define ucDeleteArray(core, ptr, count) unicore::memory::DestroyAndDeallocate(core, ptr, count)
-#define ucDelete(core, ptr) DeleteArray(core, ptr, 1)
+#define ucDeleteArray(ptr, count) unicore::memory::DestroyAndDeallocate(ptr, count)
+#define ucDelete(ptr) ucDeleteArray(ptr, 1)

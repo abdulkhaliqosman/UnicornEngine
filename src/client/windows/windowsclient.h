@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Windows.h>
-#include <functional>
-#include "core/container/list.h"
+#include "engine/engineheader.h"
 
-namespace unicore
+#include <functional>
+
+namespace uniclient
 {
     struct WindowsParams
     {
@@ -14,10 +14,15 @@ namespace unicore
         int       nCmdShow;
     };
 
-    class WindowManager
+    class WindowsClient
     {
     public:
-        WindowManager(const WindowsParams& params);
+        WindowsClient(const WindowsParams& params);
+
+        inline void SetEngine(uce::Engine* engine) { m_Engine = engine; }
+
+        void Run();
+
         void Startup();
         void Update();
         void Shutdown();
@@ -27,7 +32,7 @@ namespace unicore
         void RegisterWindowCloseEvent(const std::function<void()>&);
         void RegisterRawInputEvent(const std::function<void(WPARAM, LPARAM)>&);
 
-        inline static LRESULT WndProc(WindowManager* mgr, HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+        inline static LRESULT WndProc(WindowsClient* mgr, HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         {
             return mgr->WndProc(hwnd, iMsg, wParam, lParam);
         }
@@ -41,8 +46,10 @@ namespace unicore
         
         HWND m_HWnd;
 
-        List<std::function<void()> > m_OnWindowCloseEvent;
-        List<std::function<void(WPARAM, LPARAM)> > m_OnRawInputEvent;
+        ucc::List<std::function<void()> > m_OnWindowCloseEvent;
+        ucc::List<std::function<void(WPARAM, LPARAM)> > m_OnRawInputEvent;
+
+        uce::Engine* m_Engine = nullptr;
 
         LRESULT WndProc(HWND, UINT, WPARAM, LPARAM);
     };

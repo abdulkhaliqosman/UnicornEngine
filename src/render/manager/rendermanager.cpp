@@ -10,16 +10,9 @@
 
 namespace unirender
 {
-    RenderManager::RenderManager(unicore::Core& core)
-        :m_Core(core)
-    {
-
-    }
-    
     void RenderManager::Startup()
     {
         std::cout << "RenderManager::Startup()" << std::endl;
-        m_Hwnd = m_Core.GetWindowManager().GetHWnd();
         assert(m_Hwnd != nullptr);
 
         CreateSwapChain();
@@ -36,7 +29,7 @@ namespace unirender
 
         m_DeviceContext->RSSetViewports(1, &viewport);
 
-        m_ConstantBuffer = CreateConstantBuffer(sizeof(uc::Matrix4f));
+        m_ConstantBuffer = CreateConstantBuffer(sizeof(ucc::Matrix4f));
         UpdateMVPCBuffer(); // set to identity
 
         uca::Cube cube; //TODO: store the cube in an asset manager
@@ -164,7 +157,7 @@ namespace unirender
         ID3DBlob* vsBlob;
 
         D3DCompileFromFile(
-            L"content/shaders/PixelShader.hlsl",
+            L"../content/shaders/PixelShader.hlsl",
             nullptr, nullptr,
             "main", "ps_5_0",
             0, 0,
@@ -172,7 +165,7 @@ namespace unirender
         );
 
         D3DCompileFromFile(
-            L"content/shaders/VertexShader.hlsl",
+            L"../content/shaders/VertexShader.hlsl",
             nullptr, nullptr,
             "main", "vs_5_0",
             0, 0,
@@ -259,10 +252,10 @@ namespace unirender
         rot += 0.001f;
         // m_MVP.model[0].SetW(0.5f);
         m_MVP.model = 
-            uc::Transform::Scale(uc::Vector4f(0.5f, 0.5f, 0.5f, 1.0f))
-            * uc::Transform::Rotation(rot, rot, rot)
-            * uc::Transform::Translation(uc::Vector4f(0.2f, 0.2f, 0.5f, 1.0f));
-        uc::Matrix4f mvp = m_MVP.model * m_MVP.view * m_MVP.projection;
+            ucc::Transform::Scale(ucc::Vector4f(0.5f, 0.5f, 0.5f, 1.0f))
+            * ucc::Transform::Rotation(rot, rot, rot)
+            * ucc::Transform::Translation(ucc::Vector4f(0.2f, 0.2f, 0.5f, 1.0f));
+        ucc::Matrix4f mvp = m_MVP.model * m_MVP.view * m_MVP.projection;
         CopyMappedBuffer(m_ConstantBuffer, mvp.GetData(), sizeof(mvp));
     }
 }

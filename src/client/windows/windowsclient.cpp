@@ -1,15 +1,14 @@
-#include "core/coreheader.h"
-#include "windowmanager.h"
+#include "windowsclient.h"
 
 #include <iostream>
 #include <chrono>
 #include "strsafe.h"
 
-LRESULT CALLBACK sWndProc(HWND, UINT, WPARAM, LPARAM);
-
-namespace unicore
+namespace uniclient
 {
-    WindowManager::WindowManager(const WindowsParams& params)
+    LRESULT CALLBACK sWndProc(HWND, UINT, WPARAM, LPARAM);
+
+    WindowsClient::WindowsClient(const WindowsParams& params)
         :m_hInstance(params.hInstance),
         m_hPrevInstance(params.hPrevInstance),
         m_lpCmdLine(params.lpCmdLine),
@@ -18,7 +17,17 @@ namespace unicore
 
     }
 
-    void WindowManager::Startup()
+    void WindowsClient::Run()
+    {
+        Startup();
+        while (1)
+        {
+            Update();
+        }
+        Shutdown();
+    }
+
+    void WindowsClient::Startup()
     {
         WNDCLASSEX wndclass;
         wndclass.cbSize = sizeof(WNDCLASSEX);
@@ -55,46 +64,51 @@ namespace unicore
 
         ShowWindow(m_HWnd, m_nCmdShow);
         UpdateWindow(m_HWnd);
+
+        m_Engine->GetRenderManager().SetHwnd(m_HWnd);
+
+        m_Engine->Startup();
     }
 
-    void WindowManager::Update()
+    void WindowsClient::Update()
     {
         static auto prev = std::chrono::high_resolution_clock::now();
         auto now = std::chrono::high_resolution_clock::now();
         auto durationNano = now - prev;
-        TCHAR text[256];
-        StringCchPrintf(text, 256, TEXT("fps:%f, milliseconds:%f"), 
-            1000000000.0/max(1.0, static_cast<double>(durationNano.count())),
-            static_cast<double>(durationNano.count()) / 1000000.0
-        );
-        prev = now;
-        SetWindowText(m_HWnd, text);
+        // TCHAR text[256];
+        // StringCchPrintf(text, 256, TEXT("fps:%f, milliseconds:%f"), 
+        //     1000000000.0/max(1.0, static_cast<double>(durationNano.count())),
+        //     static_cast<double>(durationNano.count()) / 1000000.0
+        // );
+        // prev = now;
+        // SetWindowText(m_HWnd, text);
 
         MSG msg;
         while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
-
         }
+        m_Engine->Update();
+
     }
 
-    void WindowManager::Shutdown()
+    void WindowsClient::Shutdown()
     {
-
+        m_Engine->Shutdown();
     }
     
-    void WindowManager::RegisterWindowCloseEvent(const std::function<void()>& func)
+    void WindowsClient::RegisterWindowCloseEvent(const std::function<void()>& func)
     {
         m_OnWindowCloseEvent.push_back(func);
     }
 
-    void WindowManager::RegisterRawInputEvent(const std::function<void(WPARAM, LPARAM)>& func)
+    void WindowsClient::RegisterRawInputEvent(const std::function<void(WPARAM, LPARAM)>& func)
     {
         m_OnRawInputEvent.push_back(func);
     }
 
-    LRESULT WindowManager::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+    LRESULT WindowsClient::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     {
         switch (iMsg)
         {
@@ -121,12 +135,14 @@ namespace unicore
         }
         return DefWindowProc(hwnd, iMsg, wParam, lParam);
     }
+
+    LRESULT CALLBACK sWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+    {
+        LONG_PTR winmgrLP = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+        WindowsClient* winmgr = reinterpret_cast<WindowsClient*>(winmgrLP);
+
+        return WindowsClient::WndProc(winmgr, hwnd, iMsg, wParam, lParam);
+    }
+
 }
 
-LRESULT CALLBACK sWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
-{
-    LONG_PTR winmgrLP = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    unicore::WindowManager* winmgr = reinterpret_cast<unicore::WindowManager*>(winmgrLP);
-
-    return unicore::WindowManager::WndProc(winmgr, hwnd, iMsg, wParam, lParam);
-}

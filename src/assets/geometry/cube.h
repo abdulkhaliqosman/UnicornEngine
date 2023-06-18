@@ -8,8 +8,8 @@ namespace uniassets
     class Cube : public Geometry
     {
     public:
-        const uc::List<Vertex>& GetVertices() const override;
-        const uc::List<uint32_t>& GetVertexIndices() const override;
+        const ucc::List<Vertex>& GetVertices() const override;
+        const ucc::List<uint32_t>& GetVertexIndices() const override;
     private:
 
     };

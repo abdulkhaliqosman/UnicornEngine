@@ -1,6 +1,5 @@
 #include "memorymanager.h"
 
-
 namespace unicore
 {
     void MemoryManager::Startup()

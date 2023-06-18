@@ -27,7 +27,7 @@ namespace unirender
 
         ID3D11Buffer* m_VertexBuffer = nullptr;
         ID3D11Buffer* m_IndexBuffer = nullptr;
-        uc::List<const RenderComponent*> m_Components;
+        ucc::List<const RenderComponent*> m_Components;
     };
 
     class RenderComponent

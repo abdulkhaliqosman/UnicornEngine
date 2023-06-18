@@ -3,41 +3,45 @@
 
 namespace uniengine
 {
-    Engine::Engine(const EngineParams& params)
-        :m_Core(params.coreParams),
-        m_RenderManager(m_Core)
+    Engine::Engine()
     {
 
-    }
-
-    void Engine::Run()
-    {
-        Startup();
-        while(1) // TODO hook up to exit button
-        {
-            Update();
-        }
-        Shutdown();
     }
 
     void Engine::Startup()
     {
         std::cout << "Engine::Startup()" << std::endl;
-        m_Core.Startup();
+
+        m_ThreadManager.AddThread(&m_NetworkThread);
+
+        m_MemoryManager.Startup();
+        m_ThreadManager.Startup();
+        m_InputManager.Startup();
+
         m_RenderManager.Startup();
+
+        m_EditorServer.Init();
     }
 
     void Engine::Update()
     {
-        m_Core.Update();
+        m_InputManager.Update();
+        m_MemoryManager.Update();
+        m_ThreadManager.Update();
+
         m_RenderManager.Update();
+        m_EditorServer.Update();
+
     }
 
     void Engine::Shutdown()
     {
         std::cout << "Engine::Shutdown()" << std::endl;
         m_RenderManager.Shutdown();
-        m_Core.Shutdown();
+
+        m_InputManager.Shutdown();
+        m_ThreadManager.Shutdown();
+        m_MemoryManager.Shutdown();
 
     }
 }
