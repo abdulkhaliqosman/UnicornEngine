@@ -1,5 +1,5 @@
 #include "networkclient.h"
-#include <ws2tcpip.h>
+#include <WS2tcpip.h>
 #include <stdio.h>
 #include <cassert>
 
@@ -43,7 +43,7 @@ namespace unicore
             }
             const char* sendbuf = "this is a test";
             // Send an initial buffer
-            int iResult = send(m_Socket, sendbuf, (int)strlen(sendbuf), 0);
+            int iResult = send(m_Socket, sendbuf, static_cast<int>(strlen(sendbuf)), 0);
             if (iResult == SOCKET_ERROR)
             {
                 printf("NetworkClient::Update() send failed: %d\n", WSAGetLastError());
@@ -141,7 +141,7 @@ namespace unicore
 
         addrinfo* ptr = m_ServerAddrInfo;
 
-        int connResult = connect(m_Socket, ptr->ai_addr, (int)ptr->ai_addrlen);
+        int connResult = connect(m_Socket, ptr->ai_addr, static_cast<int>(ptr->ai_addrlen));
         if (connResult == SOCKET_ERROR)
         {
             printf("NetworkClient::ConnectSocket(): connect failed: %d\n", WSAGetLastError());

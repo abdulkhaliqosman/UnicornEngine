@@ -15,11 +15,13 @@
 
 #include "core/container/list.h"
 #include "core/container/tuple.h"
+#include "core/gameobject/gameobject.h"
 
 #include "core/math/math.h"
 #include "core/memory/memory.h"
 
 #include "core/serializer/serializer.h"
+#include "core/filesystem/filesystem.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 600
@@ -27,7 +29,9 @@
 namespace ucc
 {
     using Vector4f = unicore::Vector4f;
-    using Matrix4f = unicore::Matrix4f;
+    using Vector2f = unicore::Vector2f;
+    using Vector4uc = unicore::Vector4uc;
+    using Matrix4x4f = unicore::Matrix4x4f;
     using Transform = unicore::Transform;
     template <typename T> using List = unicore::List<T>;
 
@@ -40,5 +44,8 @@ namespace ucc
     using MemoryManager = unicore::MemoryManager;
     using ThreadManager = unicore::ThreadManager;
     using InputManager = unicore::InputManager;
+
+    using GameObject = unicore::GameObject;
+    using FileSystem = unicore::FileSystem;
 }
 

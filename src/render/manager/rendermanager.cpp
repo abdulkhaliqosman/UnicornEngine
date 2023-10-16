@@ -10,14 +10,14 @@
 
 namespace unirender
 {
-    void RenderManager::Startup()
+    void RenderManager::Init()
     {
         std::cout << "RenderManager::Startup()" << std::endl;
         assert(m_Hwnd != nullptr);
 
         CreateSwapChain();
         CreateRenderTarget();
-        
+
         // Set the viewport
         D3D11_VIEWPORT viewport;
         ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
@@ -29,18 +29,18 @@ namespace unirender
 
         m_DeviceContext->RSSetViewports(1, &viewport);
 
-        m_ConstantBuffer = CreateConstantBuffer(sizeof(ucc::Matrix4f));
+        m_ConstantBuffer = CreateConstantBuffer(sizeof(ucc::Matrix4x4f));
         UpdateMVPCBuffer(); // set to identity
 
-        uca::Cube cube; //TODO: store the cube in an asset manager
+        // uca::Cube cube; //TODO: store the cube in an asset manager
+        // auto* renderObject = ucNew(RenderObject);
+        // m_RenderObjects.push_back(renderObject);
+        // renderObject->CreateFromMeshData(this, *uca::MeshData::CreateCubeMesh());
+    }
 
-        auto* renderObject = new RenderObject;
-        m_RenderObjects.push_back(renderObject);
-
-        renderObject->SetGeometry(&cube);
-        renderObject->Startup(this);
-        renderObject->SetGeometry(nullptr);
-
+    void RenderManager::Startup()
+    {
+        
         LoadShaders();
     }
 
@@ -72,7 +72,7 @@ namespace unirender
             m_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
             // draw the vertex buffer to the back buffer
-            m_DeviceContext->DrawIndexed(object->GetIndicesSize(), 0, 0);
+            m_DeviceContext->DrawIndexed(object->GetIndicesCount(), 0, 0);
         }
         
 
@@ -156,21 +156,25 @@ namespace unirender
         ID3DBlob* psBlob;
         ID3DBlob* vsBlob;
 
-        D3DCompileFromFile(
-            L"../content/shaders/PixelShader.hlsl",
-            nullptr, nullptr,
-            "main", "ps_5_0",
-            0, 0,
-            &psBlob, nullptr
-        );
-
-        D3DCompileFromFile(
+        ID3DBlob* ppErrorMsgs;
+        HRESULT vsresult = D3DCompileFromFile(
             L"../content/shaders/VertexShader.hlsl",
             nullptr, nullptr,
             "main", "vs_5_0",
             0, 0,
-            &vsBlob, nullptr
+            &vsBlob, &ppErrorMsgs
         );
+
+        ID3DBlob* psppErrorMsgs;
+        HRESULT psresult = D3DCompileFromFile(
+            L"../content/shaders/PixelShader.hlsl",
+            nullptr, nullptr,
+            "main", "ps_5_0",
+            0, 0,
+            &psBlob, &psppErrorMsgs
+        );
+
+        // char* error = (char*)psppErrorMsgs->GetBufferPointer();
 
         // encapsulate both shaders into shader objects
         m_Device->CreateVertexShader(vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), nullptr, &m_VertexShader);
@@ -180,14 +184,31 @@ namespace unirender
         m_DeviceContext->VSSetShader(m_VertexShader, nullptr, 0);
         m_DeviceContext->PSSetShader(m_PixelShader, nullptr, 0);
 
-        D3D11_INPUT_ELEMENT_DESC ied[] =
+        constexpr uint32_t ied_count = 3;
+        D3D11_INPUT_ELEMENT_DESC ied[ied_count] =
         {
             {"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
             {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, D3D11_INPUT_PER_VERTEX_DATA, 0},
+            {"NORMAL", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
         };
-
-        m_Device->CreateInputLayout(ied, 2, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &m_InputLayout);
+        
+        m_Device->CreateInputLayout(ied, ied_count, vsBlob->GetBufferPointer(), vsBlob->GetBufferSize(), &m_InputLayout);
         m_DeviceContext->IASetInputLayout(m_InputLayout);
+    }
+
+    void RenderManager::AddMesh(const uca::MeshData& meshData)
+    {
+        auto* renderObject = ucNew(RenderObject);
+        m_RenderObjects.push_back(renderObject);
+
+        renderObject->CreateFromMeshData(this, meshData);
+    }
+
+    CameraObject* RenderManager::AddCamera()
+    {
+        auto* cameraObject = ucNew(CameraObject);
+        m_CameraObjects.push_back(cameraObject);
+        return cameraObject;
     }
 
     ID3D11Buffer* RenderManager::CreateConstantBuffer(uint32_t size)
@@ -249,13 +270,14 @@ namespace unirender
     void RenderManager::UpdateMVPCBuffer()
     {
         static float rot = 0.0f;
-        rot += 0.001f;
+        rot += 0.01f;
         // m_MVP.model[0].SetW(0.5f);
         m_MVP.model = 
-            ucc::Transform::Scale(ucc::Vector4f(0.5f, 0.5f, 0.5f, 1.0f))
-            * ucc::Transform::Rotation(rot, rot, rot)
-            * ucc::Transform::Translation(ucc::Vector4f(0.2f, 0.2f, 0.5f, 1.0f));
-        ucc::Matrix4f mvp = m_MVP.model * m_MVP.view * m_MVP.projection;
+            ucc::Transform::Scale(ucc::Vector4f(0.5f, 0.5f, 0.1f, 1.0f))
+            * ucc::Transform::Rotation(0.0f, rot, 0.0f)
+            * ucc::Transform::Translation(ucc::Vector4f(0.0f, 0.0f, 0.5f, 1.0f));
+        m_MVP.view = 
+        ucc::Matrix4x4f mvp = m_MVP.model * m_MVP.view * m_MVP.projection;
         CopyMappedBuffer(m_ConstantBuffer, mvp.GetData(), sizeof(mvp));
     }
 }

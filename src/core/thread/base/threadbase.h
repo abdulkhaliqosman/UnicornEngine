@@ -7,6 +7,8 @@ namespace unicore
     class ThreadBase
     {
     public:
+        inline virtual ~ThreadBase() {}
+
         virtual void Init() = 0;
         virtual void Run() = 0;
 

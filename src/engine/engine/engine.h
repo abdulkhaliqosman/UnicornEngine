@@ -6,11 +6,13 @@
 
 namespace uniengine
 {
+	class Scene;
+
 	class Engine
 	{
 	public:
 		Engine();
-
+		void Init();
         void Startup();
         void Update();
         void Shutdown();
@@ -25,5 +27,7 @@ namespace uniengine
 		ucc::ThreadManager m_ThreadManager;
 		ucc::InputManager m_InputManager;
 		ucc::NetworkThread m_NetworkThread;
+
+		Scene* m_Scene;
 	};
 }

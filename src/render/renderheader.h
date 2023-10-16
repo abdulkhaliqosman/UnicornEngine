@@ -7,3 +7,8 @@
 
 #include "render/manager/rendermanager.h"
 #include "render/component/rendercomponent.h"
+
+namespace ucr
+{
+    using RenderComponent = unirender::RenderComponent;
+}

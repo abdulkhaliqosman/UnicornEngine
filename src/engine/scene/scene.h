@@ -1,4 +1,5 @@
 #pragma once
+#include "core/coreheader.h"
 
 namespace uniengine 
 {
@@ -9,6 +10,7 @@ namespace uniengine
         void Update();
         void Shutdown();
 	private:
+		ucc::List<ucc::GameObject*> m_GameObjects;
 
 	};
 }

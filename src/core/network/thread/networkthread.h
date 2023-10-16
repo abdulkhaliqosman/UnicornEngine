@@ -11,6 +11,8 @@ namespace unicore
     class RecvListener
     {
     public:
+        inline virtual ~RecvListener() {}
+
         SOCKET GetSocket() { return m_Socket; }
         void SetSocket(SOCKET s) { m_Socket = s; }
 
@@ -30,6 +32,8 @@ namespace unicore
     class NetworkThread : public ThreadBase
     {
     public:
+        inline virtual ~NetworkThread() override {}
+
         void Init() override;
         void Run() override;
 

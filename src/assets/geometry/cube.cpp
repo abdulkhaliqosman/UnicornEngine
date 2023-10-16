@@ -18,16 +18,28 @@ namespace uniassets
         6, 1, 5
     };
 
+    // static const ucc::List<Vertex> s_Vertices =
+    // {
+    //     Vertex{ucc::Vector4f(0.5f, 0.5f,  -0.5f, 1.0f), ucc::Vector4f(1.0f, 1.0f, 0.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(0.5f, -0.5f,  -0.5f, 1.0f), ucc::Vector4f(1.0f, 0.0f, 0.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(-0.5f, -0.5f,  -0.5f, 1.0f), ucc::Vector4f(0.0f, 0.0f, 0.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(-0.5f, 0.5f,  -0.5f, 1.0f), ucc::Vector4f(0.0f, 1.0f, 0.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(0.5f, 0.5f,  0.5f, 1.0f), ucc::Vector4f(1.0f, 1.0f, 1.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(0.5f, -0.5f,  0.5f, 1.0f), ucc::Vector4f(1.0f, 0.0f, 1.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(-0.5f, -0.5f,  0.5f, 1.0f), ucc::Vector4f(0.0f, 0.0f, 1.0f, 1.0f)},
+    //     Vertex{ucc::Vector4f(-0.5f, 0.5f,  0.5f, 1.0f), ucc::Vector4f(0.0f, 1.0f, 1.0f, 1.0f)}
+    // };
+    
     static const ucc::List<Vertex> s_Vertices =
     {
-        Vertex{ucc::Vector4f(0.5f, 0.5f,  -0.5f, 1.0f), ucc::Vector4f(1.0f, 1.0f, 0.0f, 1.0f)},
-        Vertex{ucc::Vector4f(0.5f, -0.5f,  -0.5f, 1.0f), ucc::Vector4f(1.0f, 0.0f, 0.0f, 1.0f)},
-        Vertex{ucc::Vector4f(-0.5f, -0.5f,  -0.5f, 1.0f), ucc::Vector4f(0.0f, 0.0f, 0.0f, 1.0f)},
-        Vertex{ucc::Vector4f(-0.5f, 0.5f,  -0.5f, 1.0f), ucc::Vector4f(0.0f, 1.0f, 0.0f, 1.0f)},
-        Vertex{ucc::Vector4f(0.5f, 0.5f,  0.5f, 1.0f), ucc::Vector4f(1.0f, 1.0f, 1.0f, 1.0f)},
-        Vertex{ucc::Vector4f(0.5f, -0.5f,  0.5f, 1.0f), ucc::Vector4f(1.0f, 0.0f, 1.0f, 1.0f)},
-        Vertex{ucc::Vector4f(-0.5f, -0.5f,  0.5f, 1.0f), ucc::Vector4f(0.0f, 0.0f, 1.0f, 1.0f)},
-        Vertex{ucc::Vector4f(-0.5f, 0.5f,  0.5f, 1.0f), ucc::Vector4f(0.0f, 1.0f, 1.0f, 1.0f)}
+        Vertex{ucc::Vector4f(0.5f, 0.5f,  -0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(0.5f, -0.5f,  -0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(-0.5f, -0.5f,  -0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(-0.5f, 0.5f,  -0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(0.5f, 0.5f,  0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(0.5f, -0.5f,  0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(-0.5f, -0.5f,  0.5f, 1.0f)},
+        Vertex{ucc::Vector4f(-0.5f, 0.5f,  0.5f, 1.0f)}
     };
 
     const ucc::List<Vertex>& Cube::GetVertices() const

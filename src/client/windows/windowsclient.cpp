@@ -72,9 +72,9 @@ namespace uniclient
 
     void WindowsClient::Update()
     {
-        static auto prev = std::chrono::high_resolution_clock::now();
-        auto now = std::chrono::high_resolution_clock::now();
-        auto durationNano = now - prev;
+        // static auto prev = std::chrono::high_resolution_clock::now();
+        // auto now = std::chrono::high_resolution_clock::now();
+        // auto durationNano = now - prev;
         // TCHAR text[256];
         // StringCchPrintf(text, 256, TEXT("fps:%f, milliseconds:%f"), 
         //     1000000000.0/max(1.0, static_cast<double>(durationNano.count())),

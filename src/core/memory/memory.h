@@ -55,5 +55,5 @@ namespace unicore
 #define ucNewArray(type, count) unicore::memory::ConstructAndAllocate<type>(count)
 #define ucNew(type) ucNewArray(type, 1)
 
-#define ucDeleteArray(ptr, count) unicore::memory::DestroyAndDeallocate(ptr, count)
+#define ucDeleteArray(ptr, count) unicore::memory::DestroyAndDeallocate(ptr, count); ptr = nullptr
 #define ucDelete(ptr) ucDeleteArray(ptr, 1)

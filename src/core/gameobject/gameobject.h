@@ -9,9 +9,9 @@ namespace unicore
     class GameObject
     {
     public:
-        void Serialize(ISerializer&);
-        
+        void Startup();
+        void AddComponent(Component* component);
     private:
-        List<Component> m_Components;
+        List<Component*> m_Components;
     };
 }

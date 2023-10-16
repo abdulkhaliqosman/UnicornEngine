@@ -37,7 +37,7 @@ namespace unicore
 
     bool NetworkThread::RemoveRecvListener(RecvListener* listener)
     {
-        for (int i = 0; i < m_RecvListeners.size(); ++i)
+        for (uint32_t i = 0; i < m_RecvListeners.size(); ++i)
         {
             if (m_RecvListeners[i] == listener)
             {

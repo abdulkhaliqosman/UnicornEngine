@@ -27,10 +27,11 @@ if("${UNICORN_BUILD_TYPE}" MATCHES "Editor")
                                "${PROJECT_BINARY_DIR}"
                                "${PROJECT_SOURCE_DIR}"
                                "${PROJECT_SOURCE_DIR}/src/"
+                               "${PROJECT_SOURCE_DIR}/extern/"
                                "${PROJECT_SOURCE_DIR}/src/editor"
                                )
 
-    target_link_libraries(UnicornEditor PUBLIC Engine Editor)
+    target_link_libraries(UnicornEditor PUBLIC Extern Engine Editor)
     
 elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
     add_subdirectory("client")
@@ -41,10 +42,11 @@ elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
                                "${PROJECT_BINARY_DIR}"
                                "${PROJECT_SOURCE_DIR}"
                                "${PROJECT_SOURCE_DIR}/src/"
+                               "${PROJECT_SOURCE_DIR}/extern/"
                                "${PROJECT_SOURCE_DIR}/src/client"
                                )
 
-    target_link_libraries(UnicornClient PUBLIC Engine Client)
+    target_link_libraries(UnicornClient PUBLIC Extern Engine Client)
 endif()
 
 # TODO: Add tests and install targets if needed.

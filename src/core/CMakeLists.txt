@@ -6,12 +6,13 @@ set(UNICORE_INPUT
     )
 
 set(UNICORE_MATH
-    "math/matrix4f.h" 
+    "math/matrix4x4f.h" 
     "math/vector4f.h"
     "math/quaternion4f.h"
     "math/transform.h"
     "math/color.h"
     "math/math.h"
+    "math/projection.h"
     )
     
 set(UNICORE_MEMORY
@@ -50,6 +51,11 @@ set(UNICORE_COMPONENT
     "component/component.cpp"
     )
 
+set(UNICORE_FILESYSTEM
+    "filesystem/filesystem.h"
+    "filesystem/filesystem.cpp"
+    )
+
 set(UNICORE_SERIALIZER
     "serializer/serializer.h"
     "serializer/serializer.cpp"
@@ -64,8 +70,8 @@ add_library(Core
             "${UNICORE_GAMEOBJECT}"
             "${UNICORE_SERIALIZER}"
             "${UNICORE_INPUT}"
-            "${UNICORE_SERIALIZER}"
-            )
+            "${UNICORE_FILESYSTEM}"
+             "logging/log.h")
 
 target_include_directories(Core PRIVATE
                         "${PROJECT_SOURCE_DIR}"

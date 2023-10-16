@@ -14,7 +14,7 @@ add_library(Render
             "renderheader.h"
             "${RENDER_MANAGER}"
             "${RENDER_COMPONENT}"
-            )
+             "camera/cameraobject.h" "camera/cameraobject.cpp")
 
 target_include_directories(Render PRIVATE 
                            "${PROJECT_SOURCE_DIR}"

@@ -1,15 +1,10 @@
 #pragma once
 
 #include "core/coreheader.h"
+#include "assets/geometry/vertex.h"
 
 namespace uniassets
 {
-    struct Vertex
-    {
-        ucc::Vector4f position;
-        ucc::Vector4f color;
-    };
-
     class Geometry
     {
     public:

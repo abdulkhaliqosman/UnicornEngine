@@ -17,6 +17,7 @@ namespace unicore
 
 		inline Vector4f() : m_Data() { _mm_set_ps1(0.0f); }
 		inline Vector4f(float x, float y, float z, float w) : m_Data(_mm_set_ps(w, z, y, x)) { }
+		inline explicit Vector4f(vector_type& v) : m_Data(_mm_load_ps(v.data)) { }
 		inline explicit Vector4f(__m128 data) : m_Data(data) {}
 
 		float GetX() const;

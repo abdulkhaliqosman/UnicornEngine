@@ -66,7 +66,7 @@ namespace unieditor
     {
 
     }
-    void EditorSerializer::Serialize(ucc::Matrix4f&)
+    void EditorSerializer::Serialize(ucc::Matrix4x4f&)
     {
 
     }

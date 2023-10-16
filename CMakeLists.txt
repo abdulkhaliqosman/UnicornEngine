@@ -14,16 +14,18 @@ if (MSVC)
     # additional warnings
 	message("-Wall -Wextra -Wpedantic -Wno-c++98-compat -march=x86-64-v2")
     add_compile_options(-Wall -Wextra -Wpedantic -Wno-c++98-compat -march=x86-64-v2)
+	# add_compile_definitions(UNICODE)
 endif()
 
 # Include sub-projects.
+add_subdirectory ("extern")
+
 add_subdirectory ("src")
 
 set(UNICORN_SHADERS_DIR
 	"content/shaders"
 	)
-
-
+	
 set(UNICORN_CONTENT
 	"content/"
 	)

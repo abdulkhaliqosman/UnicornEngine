@@ -21,7 +21,7 @@ namespace unieditor
         void Serialize(double&) override;
 
         void Serialize(ucc::Vector4f&) override;
-        void Serialize(ucc::Matrix4f&) override;
+        void Serialize(ucc::Matrix4x4f&) override;
     private:
 
     };

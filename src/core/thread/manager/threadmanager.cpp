@@ -8,6 +8,8 @@ namespace unicore
     {
         ThreadBase* threadbase = static_cast<ThreadBase*>(pArguments);
         threadbase->Run();
+
+        return 0;
     }
 
     void ThreadManager::Startup()
