@@ -12,6 +12,7 @@ elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
     add_compile_definitions(UNICORN_CLIENT)
 endif()
 
+add_subdirectory ("platform")
 add_subdirectory ("core")
 add_subdirectory ("assets")
 add_subdirectory ("render")
@@ -34,7 +35,7 @@ if("${UNICORN_BUILD_TYPE}" MATCHES "Editor")
     target_link_libraries(UnicornEditor PUBLIC Extern Engine Editor)
     
 elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
-    add_subdirectory("client")
+    #add_subdirectory("client")
 
     add_executable (UnicornClient "client/unicornclient.cpp")
 
@@ -46,7 +47,7 @@ elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
                                "${PROJECT_SOURCE_DIR}/src/client"
                                )
 
-    target_link_libraries(UnicornClient PUBLIC Extern Engine Client)
+    target_link_libraries(UnicornClient PUBLIC Extern Engine)
 endif()
 
 # TODO: Add tests and install targets if needed.

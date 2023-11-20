@@ -78,3 +78,5 @@ target_include_directories(Core PRIVATE
                         "${PROJECT_SOURCE_DIR}/src/"
                         "${PROJECT_SOURCE_DIR}/src/core"
                         )
+
+target_link_libraries(Core PRIVATE Platform)

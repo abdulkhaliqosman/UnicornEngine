@@ -7,6 +7,7 @@ namespace unicore
 	class Transform
 	{
 	public:
+		static Matrix4x4f Translation(float x, float y, float z);
 		static Matrix4x4f Translation(const Vector4f& position);
 		static Matrix4x4f Scale(const Vector4f& scale);
 
@@ -20,15 +21,18 @@ namespace unicore
 
 	inline Matrix4x4f Transform::Translation(const Vector4f& position)
 	{
-		Vector4f pos{ position.GetX(), position.GetY(), position.GetZ(), 1.0f };
-
 		return Matrix4x4f(
-			Vector4f::Right(),
-			Vector4f::Up(),
-			Vector4f::Forward(),
-			pos
+			Vector4f(1.0f, 0.0f, 0.0f, position.GetX()),
+			Vector4f(0.0f, 1.0f, 0.0f, position.GetY()),
+			Vector4f(0.0f, 0.0f, 1.0f, position.GetZ()),
+			Vector4f::Origin()
 		);
 	}
+
+    inline Matrix4x4f Transform::Translation(float x, float y, float z)
+    {
+        return Transform::Translation(Vector4f(x, y, z, 1.0f));
+    }
 
 	inline Matrix4x4f Transform::Scale(const Vector4f& scale)
 	{

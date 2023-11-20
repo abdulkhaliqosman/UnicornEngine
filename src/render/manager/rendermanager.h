@@ -19,6 +19,7 @@ namespace unirender
 
     class RenderObject;
     class CameraObject;
+    class RenderInstance;
 
 	class RenderManager
 	{
@@ -29,8 +30,13 @@ namespace unirender
 		void Shutdown();
         void LoadShaders();
 
-        void AddMesh(const uca::MeshData& meshData);
+        RenderObject* CreateRenderObject(const uca::MeshData& meshData);
+        RenderInstance* CreateRenderInstance(const RenderObject* mesh); // TODO: change the ptr to an id
+        
+        
         CameraObject* AddCamera();
+        inline void SetActiveCamera(CameraObject* camera) { m_ActiveCamera = camera; } // must exist in the list
+        CameraObject* GetActiveCamera() { return m_ActiveCamera; } // must exist in the list
 
         ID3D11Buffer* CreateVertexBuffer(uint32_t size, const void* src);
         ID3D11Buffer* CreateIndexBuffer(uint32_t size, const void* src);
@@ -56,20 +62,22 @@ namespace unirender
 
         HWND m_Hwnd = nullptr;
 
-        IDXGISwapChain* m_SwapChain;
-        ID3D11Device* m_Device;
-        ID3D11DeviceContext* m_DeviceContext;
+        IDXGISwapChain* m_SwapChain = nullptr;
+        ID3D11Device* m_Device = nullptr;
+        ID3D11DeviceContext* m_DeviceContext = nullptr;
 
-        ID3D11RenderTargetView* m_BackBuffer;
+        ID3D11RenderTargetView* m_BackBuffer = nullptr;
 
-        ID3D11VertexShader* m_VertexShader;
-        ID3D11PixelShader* m_PixelShader;
+        ID3D11VertexShader* m_VertexShader = nullptr;
+        ID3D11PixelShader* m_PixelShader = nullptr;
 
-        ID3D11Buffer* m_ConstantBuffer;
+        ID3D11Buffer* m_ConstantBuffer = nullptr;
 
-        ID3D11InputLayout* m_InputLayout;
+        ID3D11InputLayout* m_InputLayout = nullptr;
 
         MVP m_MVP;
+
+        CameraObject* m_ActiveCamera = nullptr;
 
         ucc::List<RenderObject*> m_RenderObjects;
         ucc::List<CameraObject*> m_CameraObjects;

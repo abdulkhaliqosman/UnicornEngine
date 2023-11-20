@@ -1,4 +1,4 @@
-// UnicornEngine.cpp : Defines the entry point for the application.
+// unicorneditor.cpp : Defines the entry point for the application.
 
 #include "engine/engineheader.h"
 

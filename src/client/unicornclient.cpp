@@ -1,8 +1,7 @@
-// UnicornEngine.cpp : Defines the entry point for the application.
+// unicornclient.cpp : Defines the entry point for the application.
 
-#include "client/clientheader.h"
-
-#include <Windows.h>
+#include "platform/windows/windowsplatform.h"
+#include "engine/engineheader.h"
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -10,13 +9,10 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance,
     _In_ int       nCmdShow)
 {
 
+    uniplatform::WindowsPlatform winPlatform(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
     uce::Engine engine;
-    ucl::WindowsParams winParams{ hInstance, hPrevInstance, lpCmdLine, nCmdShow };
-    ucl::WindowsClient client(winParams);
-
-    client.SetEngine(&engine);
-
-    client.Run();
+    engine.SetWindowsPlatform(&winPlatform);
+    engine.Run();
 
     return 0;
 }

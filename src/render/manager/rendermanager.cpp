@@ -8,6 +8,9 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+#define SCREEN_WIDTH  800
+#define SCREEN_HEIGHT 600
+
 namespace unirender
 {
     void RenderManager::Init()
@@ -31,23 +34,15 @@ namespace unirender
 
         m_ConstantBuffer = CreateConstantBuffer(sizeof(ucc::Matrix4x4f));
         UpdateMVPCBuffer(); // set to identity
-
-        // uca::Cube cube; //TODO: store the cube in an asset manager
-        // auto* renderObject = ucNew(RenderObject);
-        // m_RenderObjects.push_back(renderObject);
-        // renderObject->CreateFromMeshData(this, *uca::MeshData::CreateCubeMesh());
     }
 
     void RenderManager::Startup()
     {
-        
         LoadShaders();
     }
 
     void RenderManager::Update()
     {
-        UpdateMVPCBuffer();
-
         static constexpr float blue[]{ 0.0f, 0.2f, 0.4f, 1.0f };
         // clear the back buffer to a deep blue
         m_DeviceContext->ClearRenderTargetView(m_BackBuffer, blue);
@@ -59,8 +54,19 @@ namespace unirender
 
         const UINT stride = sizeof(uca::Vertex);
 
+        static float rot = 0.0f;
+        rot += 0.005f;
+        auto vTrans = ucc::Transform::Translation(m_ActiveCamera ? m_ActiveCamera->GetViewPosition() : ucc::Vector4f::Zero());
+        auto vRot = ucc::Transform::RotationYaw(rot);
+        m_MVP.view = vTrans * vRot;
+        m_MVP.view.Transpose();
+        m_MVP.view.Inverse();
+        // m_MVP.projection = ucc::Matrix4x4f::Identity();
+        m_MVP.projection = m_ActiveCamera ? m_ActiveCamera->GetProjectionMatrix() : ucc::Matrix4x4f::Identity();
+
         for (const auto* object : m_RenderObjects)
         {
+
             UINT offset = 0;
             ID3D11Buffer* vertexBuffer = object->GetVertexBuffer();
 
@@ -71,8 +77,13 @@ namespace unirender
             // select which primitive type we are using
             m_DeviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-            // draw the vertex buffer to the back buffer
-            m_DeviceContext->DrawIndexed(object->GetIndicesCount(), 0, 0);
+            for (const auto* instance : object->GetInstances())
+            {
+                UpdateMVPCBuffer();
+                m_MVP.model = instance->GetModelTransform();
+                // draw the vertex buffer to the back buffer
+                m_DeviceContext->DrawIndexed(object->GetIndicesCount(), 0, 0);
+            }
         }
         
 
@@ -196,12 +207,13 @@ namespace unirender
         m_DeviceContext->IASetInputLayout(m_InputLayout);
     }
 
-    void RenderManager::AddMesh(const uca::MeshData& meshData)
+    RenderObject* RenderManager::CreateRenderObject(const uca::MeshData& meshData)
     {
         auto* renderObject = ucNew(RenderObject);
         m_RenderObjects.push_back(renderObject);
 
         renderObject->CreateFromMeshData(this, meshData);
+        return renderObject;
     }
 
     CameraObject* RenderManager::AddCamera()
@@ -269,15 +281,9 @@ namespace unirender
 
     void RenderManager::UpdateMVPCBuffer()
     {
-        static float rot = 0.0f;
-        rot += 0.01f;
-        // m_MVP.model[0].SetW(0.5f);
-        m_MVP.model = 
-            ucc::Transform::Scale(ucc::Vector4f(0.5f, 0.5f, 0.1f, 1.0f))
-            * ucc::Transform::Rotation(0.0f, rot, 0.0f)
-            * ucc::Transform::Translation(ucc::Vector4f(0.0f, 0.0f, 0.5f, 1.0f));
-        m_MVP.view = 
-        ucc::Matrix4x4f mvp = m_MVP.model * m_MVP.view * m_MVP.projection;
-        CopyMappedBuffer(m_ConstantBuffer, mvp.GetData(), sizeof(mvp));
+        m_MVP.model.Transpose();
+        // ucc::Matrix4x4f mvp = m_MVP.model * m_MVP.view * m_MVP.projection;
+        ucc::Matrix4x4f mvp = m_MVP.projection * m_MVP.view * m_MVP.model;
+        CopyMappedBuffer(m_ConstantBuffer, mvp.GetTranspose().GetData(), sizeof(mvp));
     }
 }

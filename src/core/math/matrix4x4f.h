@@ -76,23 +76,23 @@ namespace unicore
 		auto rhsT = rhs.GetTranspose();
 
 		result[0].SetX(Vector4f::Dot(lhs[0], rhsT[0]));
-		result[0].SetY(Vector4f::Dot(lhs[1], rhsT[0]));
-		result[0].SetZ(Vector4f::Dot(lhs[2], rhsT[0]));
-		result[0].SetW(Vector4f::Dot(lhs[3], rhsT[0]));
+        result[0].SetY(Vector4f::Dot(lhs[0], rhsT[1]));
+        result[0].SetZ(Vector4f::Dot(lhs[0], rhsT[2]));
+        result[0].SetW(Vector4f::Dot(lhs[0], rhsT[3]));
 
-        result[1].SetX(Vector4f::Dot(lhs[0], rhsT[1]));
+		result[1].SetX(Vector4f::Dot(lhs[1], rhsT[0]));
         result[1].SetY(Vector4f::Dot(lhs[1], rhsT[1]));
-        result[1].SetZ(Vector4f::Dot(lhs[2], rhsT[1]));
-        result[1].SetW(Vector4f::Dot(lhs[3], rhsT[1]));
-
-        result[2].SetX(Vector4f::Dot(lhs[0], rhsT[2]));
-        result[2].SetY(Vector4f::Dot(lhs[1], rhsT[2]));
+        result[1].SetZ(Vector4f::Dot(lhs[1], rhsT[2]));
+        result[1].SetW(Vector4f::Dot(lhs[1], rhsT[3]));
+		
+		result[2].SetX(Vector4f::Dot(lhs[2], rhsT[0]));
+        result[2].SetY(Vector4f::Dot(lhs[2], rhsT[1]));
         result[2].SetZ(Vector4f::Dot(lhs[2], rhsT[2]));
-        result[2].SetW(Vector4f::Dot(lhs[3], rhsT[2]));
+        result[2].SetW(Vector4f::Dot(lhs[2], rhsT[3]));
 
-        result[3].SetX(Vector4f::Dot(lhs[0], rhsT[3]));
-        result[3].SetY(Vector4f::Dot(lhs[1], rhsT[3]));
-        result[3].SetZ(Vector4f::Dot(lhs[2], rhsT[3]));
+		result[3].SetX(Vector4f::Dot(lhs[3], rhsT[0]));
+        result[3].SetY(Vector4f::Dot(lhs[3], rhsT[1]));
+        result[3].SetZ(Vector4f::Dot(lhs[3], rhsT[2]));
         result[3].SetW(Vector4f::Dot(lhs[3], rhsT[3]));
 
 		return result;

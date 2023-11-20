@@ -1,33 +1,26 @@
-#include "windowsclient.h"
+#include "windowsplatform.h"
 
 #include <iostream>
 #include <chrono>
 #include "strsafe.h"
 
-namespace uniclient
+#define SCREEN_WIDTH  800
+#define SCREEN_HEIGHT 600
+
+namespace uniplatform
 {
     LRESULT CALLBACK sWndProc(HWND, UINT, WPARAM, LPARAM);
 
-    WindowsClient::WindowsClient(const WindowsParams& params)
-        :m_hInstance(params.hInstance),
-        m_hPrevInstance(params.hPrevInstance),
-        m_lpCmdLine(params.lpCmdLine),
-        m_nCmdShow(params.nCmdShow)
+    WindowsPlatform::WindowsPlatform(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
+        :m_hInstance(hInstance),
+        m_hPrevInstance(hPrevInstance),
+        m_lpCmdLine(lpCmdLine),
+        m_nCmdShow(nCmdShow)
     {
 
     }
 
-    void WindowsClient::Run()
-    {
-        Startup();
-        while (1)
-        {
-            Update();
-        }
-        Shutdown();
-    }
-
-    void WindowsClient::Startup()
+    void WindowsPlatform::Startup()
     {
         WNDCLASSEX wndclass;
         wndclass.cbSize = sizeof(WNDCLASSEX);
@@ -65,12 +58,12 @@ namespace uniclient
         ShowWindow(m_HWnd, m_nCmdShow);
         UpdateWindow(m_HWnd);
 
-        m_Engine->GetRenderManager().SetHwnd(m_HWnd);
-
-        m_Engine->Startup();
+        // m_Engine->GetRenderManager().SetHwnd(m_HWnd);
+        // 
+        // m_Engine->Startup();
     }
 
-    void WindowsClient::Update()
+    void WindowsPlatform::Update()
     {
         // static auto prev = std::chrono::high_resolution_clock::now();
         // auto now = std::chrono::high_resolution_clock::now();
@@ -89,35 +82,33 @@ namespace uniclient
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        m_Engine->Update();
 
     }
 
-    void WindowsClient::Shutdown()
+    void WindowsPlatform::Shutdown()
     {
-        m_Engine->Shutdown();
-    }
-    
-    void WindowsClient::RegisterWindowCloseEvent(const std::function<void()>& func)
-    {
-        m_OnWindowCloseEvent.push_back(func);
+        // m_Engine->Shutdown();
     }
 
-    void WindowsClient::RegisterRawInputEvent(const std::function<void(WPARAM, LPARAM)>& func)
+    void WindowsPlatform::RegisterWindowCloseEvent(const std::function<WindowsEventFunc>& func)
     {
-        m_OnRawInputEvent.push_back(func);
+        m_OnWindowCloseEvent = func;
     }
 
-    LRESULT WindowsClient::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+    void WindowsPlatform::RegisterRawInputEvent(const std::function<WindowsEventFunc>& func)
+    {
+        m_OnRawInputEvent = func;
+    }
+
+    LRESULT WindowsPlatform::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     {
         switch (iMsg)
         {
         case WM_CLOSE:
-            for (const auto& elem : m_OnWindowCloseEvent)
+            if (m_OnWindowCloseEvent)
             {
-                elem();
+                m_OnWindowCloseEvent(wParam, lParam);
             }
-
             break;
         case WM_DESTROY:
         {
@@ -125,9 +116,9 @@ namespace uniclient
         }
         break;
         case WM_INPUT:
-            for (const auto& elem : m_OnRawInputEvent)
+            if(m_OnRawInputEvent)
             {
-                elem(wParam, lParam);
+                m_OnRawInputEvent(wParam, lParam);
             }
             break;
         default:
@@ -139,9 +130,9 @@ namespace uniclient
     LRESULT CALLBACK sWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     {
         LONG_PTR winmgrLP = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-        WindowsClient* winmgr = reinterpret_cast<WindowsClient*>(winmgrLP);
+        WindowsPlatform* winmgr = reinterpret_cast<WindowsPlatform*>(winmgrLP);
 
-        return WindowsClient::WndProc(winmgr, hwnd, iMsg, wParam, lParam);
+        return WindowsPlatform::WndProc(winmgr, hwnd, iMsg, wParam, lParam);
     }
 
 }

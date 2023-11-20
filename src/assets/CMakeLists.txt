@@ -25,7 +25,7 @@ set(ASSETS_FILE
 
 add_library(Assets 
             "assetsheader.h" 
-            "${ASSETS_ANIMATION}"
+            # "${ASSETS_ANIMATION}"
             "${ASSETS_GEOMETRY}"
             "${ASSETS_MESH}"
             "${ASSETS_FILE}"
