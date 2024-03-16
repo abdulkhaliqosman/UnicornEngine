@@ -13,5 +13,5 @@ target_include_directories(Platform PRIVATE
                            "${PROJECT_SOURCE_DIR}"
                            "${PROJECT_SOURCE_DIR}/src/"
                            "${PROJECT_SOURCE_DIR}/src/platform"
+                           "${PROJECT_SOURCE_DIR}/extern/imgui"
                            )
-                           

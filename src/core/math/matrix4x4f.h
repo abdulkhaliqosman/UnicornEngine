@@ -12,6 +12,8 @@ namespace unicore
 		Matrix4x4f(const Vector4f& c0, const Vector4f& c1,
 			const Vector4f& c2, const Vector4f& c3);
 
+		Matrix4x4f(float m[4][4]) : m_Data{ m[0], m[1], m[2], m[3] } {}
+
 		inline column_type& operator[](size_t idx) { return m_Data[idx]; }
 		inline const column_type& operator[](size_t idx) const { return m_Data[idx]; }
 

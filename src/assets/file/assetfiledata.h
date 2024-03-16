@@ -2,12 +2,16 @@
 
 namespace uniassets
 {
-    struct MeshData;
+    class MeshAsset;
+    class MaterialAsset;
 
     struct AssetFileData
     {
-        inline ucc::List<MeshData*>& GetMeshes() { return m_Meshes; }
+        inline ucc::List<MeshAsset*>& GetMeshes() { return m_Meshes; }
+        inline ucc::List<MaterialAsset*>& GetMaterials() { return m_Materials; }
+
     private:
-        ucc::List<MeshData*> m_Meshes;
+        ucc::List<MeshAsset*> m_Meshes;
+        ucc::List<MaterialAsset*> m_Materials;
     };
 }

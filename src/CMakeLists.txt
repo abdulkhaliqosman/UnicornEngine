@@ -37,7 +37,7 @@ if("${UNICORN_BUILD_TYPE}" MATCHES "Editor")
 elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
     #add_subdirectory("client")
 
-    add_executable (UnicornClient "client/unicornclient.cpp")
+    add_executable (UnicornClient "client/unicornclient.cpp" "animation/manager/animationmanager.h")
 
     target_include_directories(UnicornClient PUBLIC
                                "${PROJECT_BINARY_DIR}"

@@ -37,7 +37,7 @@ namespace unicore
         void Shutdown();
 
         inline void SetWindowsPlatform(uniplatform::WindowsPlatform* platform) { m_WindowsPlatform = platform; }
-        const KeyboardInput& GetKeyboard() const { return m_Keyboard; };
+        const KeyboardInput& GetKeyboard() const { return m_Keyboard; }
 
     private:
         void OnRawInputEvent(WPARAM wParam, LPARAM lParam);

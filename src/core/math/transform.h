@@ -17,15 +17,24 @@ namespace unicore
 		static Matrix4x4f RotationYaw(float yaw);
 		static Matrix4x4f RotationRoll(float roll);
 
+	public:
+		inline Transform* GetParent() { return m_Parent; }
+		inline const Transform* GetParent() const { return m_Parent; }
+		inline void SetParent(Transform* transform) { m_Parent = transform; }
+	private:
+
+		Vector4f m_Position;
+		Vector4f m_Scale;
+		Transform* m_Parent = nullptr;
 	};
 
 	inline Matrix4x4f Transform::Translation(const Vector4f& position)
 	{
 		return Matrix4x4f(
-			Vector4f(1.0f, 0.0f, 0.0f, position.GetX()),
-			Vector4f(0.0f, 1.0f, 0.0f, position.GetY()),
-			Vector4f(0.0f, 0.0f, 1.0f, position.GetZ()),
-			Vector4f::Origin()
+			Vector4f(1.0f, 0.0f, 0.0f, 0.0f),
+			Vector4f(0.0f, 1.0f, 0.0f, 0.0f),
+			Vector4f(0.0f, 0.0f, 1.0f, 0.0f),
+			position
 		);
 	}
 

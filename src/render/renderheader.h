@@ -6,11 +6,10 @@
 #include <d3d11.h>
 
 #include "render/manager/rendermanager.h"
-#include "render/component/rendercomponent.h"
+#include "render/mesh/meshobject.h"
+#include "render/texture/textureobject.h"
+#include "render/material/materialobject.h"
 #include "render/object/renderobject.h"
 #include "render/camera/cameraobject.h"
 
-namespace ucr
-{
-    using RenderComponent = unirender::RenderComponent;
-}
+namespace ucr = unirender;

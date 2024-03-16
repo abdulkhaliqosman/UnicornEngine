@@ -362,7 +362,7 @@ namespace uniassets
     AssetFileData* FBXFileAsset::ImportFromFile(const TCHAR* path)
     {
         TCHAR cwd[512];
-
+        
         GetCurrentDirectory(512, cwd);
         MY_PRINTF("cwd: %s \n", cwd);
 

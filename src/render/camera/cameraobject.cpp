@@ -7,7 +7,7 @@ namespace unirender
         m_ProjectionMatrix = ucc::Matrix4x4f::Zero();
         m_ProjectionMatrix[0].SetX(nearPlane / right);
         m_ProjectionMatrix[1].SetY(nearPlane / top);
-        m_ProjectionMatrix[2].SetZ((farPlane + nearPlane) / (farPlane - nearPlane));
+        m_ProjectionMatrix[2].SetZ(-(farPlane + nearPlane) / (farPlane - nearPlane));
 
         // m_ProjectionMatrix[2].SetW(-(2.0f * farPlane * nearPlane) / (farPlane - nearPlane));
         // m_ProjectionMatrix[3].SetZ(-1.0f);
@@ -15,6 +15,23 @@ namespace unirender
         m_ProjectionMatrix[2].SetW(-1.0f);
         m_ProjectionMatrix[3].SetZ(-(2.0f * farPlane * nearPlane) / (farPlane - nearPlane));
 
+    }
+
+    void CameraObject::SetPerspectiveFov(float tanAngle, float aspectRatio, float nearPlane, float farPlane)
+    {
+        float width = tanAngle / aspectRatio;
+        float height = tanAngle;
+        float range = farPlane / (farPlane - nearPlane);
+
+        m_ProjectionMatrix = ucc::Matrix4x4f::Zero();
+
+        m_ProjectionMatrix[0].SetX(width);
+        m_ProjectionMatrix[1].SetY(height);
+        m_ProjectionMatrix[2].SetZ(range);
+
+        m_ProjectionMatrix[3].SetZ(1.0f);
+
+        m_ProjectionMatrix[2].SetW(-range * nearPlane);
     }
 
     void CameraObject::SetViewPosition(const ucc::Vector4f& pos)

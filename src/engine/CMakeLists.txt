@@ -3,23 +3,18 @@
 set(UNIENGINE_EDITOR
     "editor/server/editornetworkserver.h"
     "editor/server/editornetworkserver.cpp"
-    )
-
-set(UNIENGINE_SCENE
-    "scene/scene.h"
-    "scene/scene.cpp"
-    )
+     "editor/commands/enginecommands.h")
 
 add_library(Engine 
             "engine/engine.cpp"
             "${UNIENGINE_EDITOR}"
-            "${UNIENGINE_SCENE}"
-             "state/enginestatemachine.h")
+             "state/enginestatemachine.h" "editor/commands/enginecommands.h")
 
 target_include_directories(Engine PRIVATE 
                            "${PROJECT_SOURCE_DIR}"
                            "${PROJECT_SOURCE_DIR}/src/"
                            "${PROJECT_SOURCE_DIR}/src/engine"
+                           "${PROJECT_SOURCE_DIR}/extern/imgui"
                            )
 
 target_link_libraries(Engine PRIVATE Core Render Assets)

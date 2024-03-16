@@ -1,0 +1,9 @@
+
+
+namespace unicore
+{
+    class EulerAngles
+    {
+
+    };
+}

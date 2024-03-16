@@ -4,7 +4,6 @@
 
 namespace unirender
 {
-    class RenderManager;
     class RenderObject;
 
     class RenderInstance
@@ -15,34 +14,31 @@ namespace unirender
         inline void SetModelTransform(const ucc::Matrix4x4f& transform) { m_ModelTransform = transform; }
 
     private:
-        RenderObject* m_RenderObject;
+        RenderObject* m_RenderObject = nullptr;
         ucc::Matrix4x4f m_ModelTransform;
     };
 
     class RenderObject
     {
     public:
-        void Shutdown(RenderManager*);
-
-        void CreateFromGeometry(RenderManager* mgr, const uca::Geometry& geom);
-        void CreateFromMeshData(RenderManager* mgr, const uca::MeshData& meshData);
+        void Shutdown();
 
         RenderInstance* CreateInstance();
         void DestroyInstance(RenderInstance*);
 
-        inline ID3D11Buffer* GetVertexBuffer() const { return m_VertexBuffer; }
-        inline ID3D11Buffer* GetIndexBuffer() const { return m_IndexBuffer; }
-        inline uint32_t GetIndicesCount() const { return m_IndicesCount; }
-        inline uint32_t GetVerticesCount() const { return m_VerticesCount; }
         inline const ucc::List<RenderInstance*>& GetInstances() const { return m_Instances; }
+
+        inline const MeshObject* GetMesh() const { return m_Mesh; }
+        inline const MaterialObject* GetMaterial() const { return m_Material; }
+
+        inline void SetMesh(MeshObject* mesh) { m_Mesh = mesh; }
+        inline void SetMaterial(MaterialObject* material) { m_Material = material; }
     private:
 
-        uint32_t m_IndicesCount = 0;
-        uint32_t m_VerticesCount = 0;
-
-        ID3D11Buffer* m_VertexBuffer = nullptr;
-        ID3D11Buffer* m_IndexBuffer = nullptr;
         ucc::List<RenderInstance*> m_Instances;
+        MeshObject* m_Mesh = nullptr;
+        MaterialObject* m_Material = nullptr;
+
     };
 
 }

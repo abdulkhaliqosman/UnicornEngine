@@ -6,13 +6,11 @@
 
 namespace uniplatform
 {
-	class  WindowsPlatform;
+	class  WindowsPlatforma;
 }
 
 namespace uniengine
 {
-	class Scene;
-
 	class Engine
 	{
 	public:
@@ -26,12 +24,12 @@ namespace uniengine
         void Update();
         void Shutdown();
 		
-		inline unirender::RenderManager& GetRenderManager() { return m_RenderManager; }
+		inline ucr::RenderManager& GetRenderManager() { return m_RenderManager; }
 		inline uniplatform::WindowsPlatform* GetWindowsPlatform() { return m_WindowsPlatform; }
 		inline void SetWindowsPlatform(uniplatform::WindowsPlatform* platform) { m_WindowsPlatform = platform; }
 
 	private:
-		unirender::RenderManager m_RenderManager;
+		ucr::RenderManager m_RenderManager;
 		uniplatform::WindowsPlatform* m_WindowsPlatform = nullptr;
 
 		EditorNetworkServer m_EditorServer;
@@ -40,8 +38,9 @@ namespace uniengine
 		ucc::InputManager m_InputManager;
 		ucc::NetworkThread m_NetworkThread;
 
-		Scene* m_Scene;
+		ucc::Scene* m_Scene = nullptr;
 
+		void FakeSceneStartup();
 		void FakeSceneUpdate();
 	};
 }

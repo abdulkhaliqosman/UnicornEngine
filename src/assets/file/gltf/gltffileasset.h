@@ -8,5 +8,6 @@ namespace uniassets
     {
     public:
         static AssetFileData* ImportFromFile(const TCHAR* path);
+
     };
 }

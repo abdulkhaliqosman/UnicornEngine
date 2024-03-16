@@ -3,9 +3,13 @@
 #include <iostream>
 #include <chrono>
 #include "strsafe.h"
+#include "extern/imgui/backends/imgui_impl_win32.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 600
+
+// Forward declare message handler from imgui_impl_win32.cpp
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace uniplatform
 {
@@ -57,10 +61,6 @@ namespace uniplatform
 
         ShowWindow(m_HWnd, m_nCmdShow);
         UpdateWindow(m_HWnd);
-
-        // m_Engine->GetRenderManager().SetHwnd(m_HWnd);
-        // 
-        // m_Engine->Startup();
     }
 
     void WindowsPlatform::Update()
@@ -87,7 +87,7 @@ namespace uniplatform
 
     void WindowsPlatform::Shutdown()
     {
-        // m_Engine->Shutdown();
+
     }
 
     void WindowsPlatform::RegisterWindowCloseEvent(const std::function<WindowsEventFunc>& func)
@@ -100,9 +100,17 @@ namespace uniplatform
         m_OnRawInputEvent = func;
     }
 
-    LRESULT WindowsPlatform::WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+    void WindowsPlatform::RegisterWindowResizeEvent(const std::function<void(UINT, UINT)>& func)
     {
-        switch (iMsg)
+        m_OnWindowResizeEvent = func;
+    }
+
+    LRESULT WindowsPlatform::WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+    {
+        if (ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam))
+            return true;
+
+        switch (uMsg)
         {
         case WM_CLOSE:
             if (m_OnWindowCloseEvent)
@@ -115,6 +123,14 @@ namespace uniplatform
             PostQuitMessage(0);
         }
         break;
+        case WM_SIZE:
+        {
+            UINT width = LOWORD(lParam);
+            UINT height = HIWORD(lParam);
+            if(m_OnWindowResizeEvent)
+                m_OnWindowResizeEvent(width, height);
+        }
+            break;
         case WM_INPUT:
             if(m_OnRawInputEvent)
             {
@@ -124,15 +140,15 @@ namespace uniplatform
         default:
             break;
         }
-        return DefWindowProc(hwnd, iMsg, wParam, lParam);
+        return DefWindowProc(hWnd, uMsg, wParam, lParam);
     }
 
-    LRESULT CALLBACK sWndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
+    LRESULT CALLBACK sWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
-        LONG_PTR winmgrLP = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+        LONG_PTR winmgrLP = GetWindowLongPtr(hWnd, GWLP_USERDATA);
         WindowsPlatform* winmgr = reinterpret_cast<WindowsPlatform*>(winmgrLP);
 
-        return WindowsPlatform::WndProc(winmgr, hwnd, iMsg, wParam, lParam);
+        return WindowsPlatform::WndProc(winmgr, hWnd, uMsg, wParam, lParam);
     }
 
 }

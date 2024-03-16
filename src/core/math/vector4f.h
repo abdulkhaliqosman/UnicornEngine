@@ -16,7 +16,10 @@ namespace unicore
 		};
 
 		inline Vector4f() : m_Data() { _mm_set_ps1(0.0f); }
-		inline Vector4f(float x, float y, float z, float w) : m_Data(_mm_set_ps(w, z, y, x)) { }
+		inline constexpr Vector4f(float x, float y, float z, float w) : m_Data(_mm_set_ps(w, z, y, x)) { }
+
+		inline Vector4f(float v[4]) : m_Data(_mm_set_ps(v[0], v[1], v[2], v[3])) { }
+
 		inline explicit Vector4f(vector_type& v) : m_Data(_mm_load_ps(v.data)) { }
 		inline explicit Vector4f(__m128 data) : m_Data(data) {}
 
@@ -39,14 +42,15 @@ namespace unicore
 		static float Dot(const Vector4f& lhs, const Vector4f& rhs);
 		static Vector4f Cross(const Vector4f& lhs, const Vector4f& rhs);
 
-		static inline Vector4f Zero()    { return Vector4f( 0.0f,  0.0f,  0.0f, 0.0f); }
-		static inline Vector4f Origin()  { return Vector4f( 0.0f,  0.0f,  0.0f, 1.0f); }
-		static inline Vector4f Right()   { return Vector4f( 1.0f,  0.0f,  0.0f, 0.0f); }
-		static inline Vector4f Left()    { return Vector4f(-1.0f,  0.0f,  0.0f, 0.0f); }
-		static inline Vector4f Up()      { return Vector4f( 0.0f,  1.0f,  0.0f, 0.0f); }
-		static inline Vector4f Down()    { return Vector4f( 0.0f, -1.0f,  0.0f, 0.0f); }
-		static inline Vector4f Forward() { return Vector4f( 0.0f,  0.0f,  1.0f, 0.0f); }
-		static inline Vector4f Back()    { return Vector4f( 0.0f,  0.0f, -1.0f, 0.0f); }
+        static inline constexpr Vector4f Zero() { return Vector4f(0.0f, 0.0f, 0.0f, 0.0f); }
+        static inline constexpr Vector4f One() { return Vector4f(1.0f, 1.0f, 1.0f, 1.0f); }
+        static inline constexpr Vector4f Origin() { return Vector4f(0.0f, 0.0f, 0.0f, 1.0f); }
+        static inline constexpr Vector4f Right() { return Vector4f(1.0f, 0.0f, 0.0f, 0.0f); }
+        static inline constexpr Vector4f Left() { return Vector4f(-1.0f, 0.0f, 0.0f, 0.0f); }
+        static inline constexpr Vector4f Up() { return Vector4f(0.0f, 1.0f, 0.0f, 0.0f); }
+        static inline constexpr Vector4f Down() { return Vector4f(0.0f, -1.0f, 0.0f, 0.0f); }
+        static inline constexpr Vector4f Forward() { return Vector4f(0.0f, 0.0f, 1.0f, 0.0f); }
+        static inline constexpr Vector4f Back() { return Vector4f(0.0f, 0.0f, -1.0f, 0.0f); }
 
 		
 
@@ -136,6 +140,11 @@ namespace unicore
 	{
 		return Vector4f(_mm_sub_ps(lhs.GetData(), rhs.GetData()));
 	}
+
+    inline Vector4f operator-(const Vector4f& rhs)
+    {
+        return Vector4f::Zero() - rhs;
+    }
 
 	inline Vector4f operator*(const Vector4f& lhs, float f)
 	{

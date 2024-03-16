@@ -1,8 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "math/vector4f.h"
-#include "math/matrix4x4f.h"
+#include "core/math/vector4f.h"
+#include "core/math/matrix4x4f.h"
 
 namespace unicore
 {

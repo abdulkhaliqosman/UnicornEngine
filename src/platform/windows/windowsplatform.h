@@ -23,6 +23,7 @@ namespace uniplatform
 
         void RegisterWindowCloseEvent(const std::function<WindowsEventFunc>&);
         void RegisterRawInputEvent(const std::function<WindowsEventFunc>&);
+        void RegisterWindowResizeEvent(const std::function<void(UINT, UINT)>&); // width, height
 
         inline static LRESULT WndProc(WindowsPlatform* mgr, HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         {
@@ -40,6 +41,7 @@ namespace uniplatform
 
         std::function<WindowsEventFunc> m_OnWindowCloseEvent;
         std::function<WindowsEventFunc> m_OnRawInputEvent;
+        std::function<void(UINT, UINT)> m_OnWindowResizeEvent;
 
         LRESULT WndProc(HWND, UINT, WPARAM, LPARAM);
     };

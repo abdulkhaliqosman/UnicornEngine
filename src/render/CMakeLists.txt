@@ -20,12 +20,18 @@ set(RENDER_OBJECT
     "object/renderobject.cpp"
 	)
 
+set(RENDER_TEXTURE
+    "texture/textureobject.h"
+    "texture/textureobject.cpp"
+	)
+
 add_library(Render
             "renderheader.h"
             "${RENDER_MANAGER}"
-            "${RENDER_COMPONENT}"
             "${RENDER_OBJECT}"
-             "camera/cameraobject.h" "camera/cameraobject.cpp" "object/renderobject.h")
+            "${RENDER_CAMERA}"
+            "${RENDER_TEXTURE}"
+              "mesh/meshobject.h" "mesh/meshobject.cpp" "material/materialobject.h" )
 
 target_include_directories(Render PRIVATE 
                            "${PROJECT_SOURCE_DIR}"

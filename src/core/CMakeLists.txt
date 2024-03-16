@@ -1,5 +1,15 @@
 # src/core/CMakeLists.txt
 
+set(UNICORE_COMPONENT
+    "component/component.h"
+    "component/component.cpp"
+    )
+
+set(UNICORE_FILESYSTEM
+    "filesystem/filesystem.h"
+    "filesystem/filesystem.cpp"
+    )
+
 set(UNICORE_INPUT
     "input/inputmanager.h" 
     "input/inputmanager.cpp"
@@ -13,13 +23,17 @@ set(UNICORE_MATH
     "math/color.h"
     "math/math.h"
     "math/projection.h"
-    )
+     "math/eulerangles.h")
     
 set(UNICORE_MEMORY
     "memory/memory.h"
     "memory/manager/memorymanager.h"
     "memory/manager/memorymanager.cpp"
-    )
+    "memory/allocator/memoryallocator.h" 
+    "memory/allocator/memoryallocator.cpp" 
+    "memory/allocator/pageallocator.h"
+    "memory/allocator/pageallocator.cpp"
+     "memory/allocator/blockallocator.h" "memory/allocator/blockallocator.cpp" "memory/allocator/buddyallocator.h" "memory/allocator/buddyallocator.cpp")
 
 set(UNICORE_NETWORK
     "network/base/networkbase.h"
@@ -32,6 +46,11 @@ set(UNICORE_NETWORK
     "network/thread/networkthread.cpp"
     )
 
+set(UNICORE_SERIALIZER
+    "serializer/serializer.h"
+    "serializer/serializer.cpp"
+    )
+
 set(UNICORE_THREAD
     "thread/thread.h"
     "thread/base/threadbase.h"
@@ -39,27 +58,13 @@ set(UNICORE_THREAD
     "thread/job/jobthread.cpp" 
     "thread/manager/threadmanager.h" 
     "thread/manager/threadmanager.cpp" 
-     "thread/job/jobmanager.h" "thread/job/jobmanager.cpp" "thread/job/jobbase.h" "thread/mutex/mutex.h")
-
-set(UNICORE_GAMEOBJECT
-    "gameobject/gameobject.h"
-    "gameobject/gameobject.cpp"
+    "thread/job/jobmanager.h" 
+    "thread/job/jobmanager.cpp" 
+    "thread/job/jobbase.h" 
+    "thread/mutex/mutex.h"
     )
 
-set(UNICORE_COMPONENT
-    "component/component.h"
-    "component/component.cpp"
-    )
 
-set(UNICORE_FILESYSTEM
-    "filesystem/filesystem.h"
-    "filesystem/filesystem.cpp"
-    )
-
-set(UNICORE_SERIALIZER
-    "serializer/serializer.h"
-    "serializer/serializer.cpp"
-    )
 
 add_library(Core 
             "coreheader.h" 
@@ -67,11 +72,11 @@ add_library(Core
             "${UNICORE_THREAD}"
             "${UNICORE_MEMORY}"
             "${UNICORE_NETWORK}"
-            "${UNICORE_GAMEOBJECT}"
             "${UNICORE_SERIALIZER}"
             "${UNICORE_INPUT}"
             "${UNICORE_FILESYSTEM}"
-             "logging/log.h")
+             "logging/log.h"
+             )
 
 target_include_directories(Core PRIVATE
                         "${PROJECT_SOURCE_DIR}"

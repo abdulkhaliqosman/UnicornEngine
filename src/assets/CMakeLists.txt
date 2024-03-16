@@ -12,8 +12,8 @@ set(ASSETS_GEOMETRY
     )
 
 set(ASSETS_MESH
-	"mesh/meshdata.h"
-	"mesh/meshdata.cpp"
+	"mesh/meshasset.h"
+	"mesh/meshasset.cpp"
     )
 
 set(ASSETS_FILE
@@ -22,14 +22,23 @@ set(ASSETS_FILE
     "file/gltf/gltffileasset.h"
     "file/gltf/gltffileasset.cpp"
     )
+    
+set(ASSETS_MATERIAL
+    "material/materialasset.h"
+    )
+
+set(ASSETS_TEXTURE
+    "texture/textureasset.h"
+    )
 
 add_library(Assets 
             "assetsheader.h" 
-            # "${ASSETS_ANIMATION}"
             "${ASSETS_GEOMETRY}"
             "${ASSETS_MESH}"
             "${ASSETS_FILE}"
-             "file/assetfiledata.h" "geometry/vertex.h")
+            "${ASSETS_MATERIAL}"
+            "${ASSETS_TEXTURE}"
+             "file/assetfiledata.h" "geometry/vertex.h"  )
 
 target_include_directories(Assets PRIVATE 
               "${PROJECT_SOURCE_DIR}"
