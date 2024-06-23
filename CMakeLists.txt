@@ -12,9 +12,16 @@ if (MSVC)
 #     add_compile_options(/W4)
 # else()
     # additional warnings
-	message("-Wall -Wextra -Wpedantic -Wno-c++98-compat -march=x86-64-v2")
-    add_compile_options(-Wall -Wextra -Wpedantic -Wno-c++98-compat -march=x86-64-v2)
+	message("-Wall -Wno-c++98-compat -march=x86-64-v2")
+    add_compile_options(-Wall -Wno-c++98-compat -march=x86-64-v2)
 	# add_compile_definitions(UNICODE)
+	if("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
+		message("UNICORN_MSVC_DEBUG")
+		add_compile_definitions("_DEBUG")
+	elseif("${CMAKE_BUILD_TYPE}" MATCHES "Release")
+		message("UNICORN_MSVC_RELEASE")
+	endif()
+
 endif()
 
 # Include sub-projects.

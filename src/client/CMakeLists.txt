@@ -1,6 +1,6 @@
 # src/client/CMakeLists.txt
 # cmake_minimum_required (VERSION 3.20)
-# message("hello from src/client/CMakeLists.txt")
+message("hello from src/client/CMakeLists.txt")
 # 
 # set(UNICORN_CLIENT
 #     "unicornclient.cpp"

@@ -65,7 +65,7 @@
     },
     {
       "name": "editor-release",
-      "displayName": "Windows x64 Release",
+      "displayName": "Editor Release",
       "description": "Target Windows with the Visual Studio development environment.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/out/build/${presetName}",

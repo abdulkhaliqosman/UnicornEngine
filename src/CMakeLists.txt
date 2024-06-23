@@ -12,12 +12,8 @@ elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
     add_compile_definitions(UNICORN_CLIENT)
 endif()
 
-add_subdirectory ("platform")
-add_subdirectory ("core")
-add_subdirectory ("assets")
-add_subdirectory ("render")
-
 add_subdirectory("engine")
+add_subdirectory("game")
 
 if("${UNICORN_BUILD_TYPE}" MATCHES "Editor")
     add_subdirectory("editor")
@@ -35,9 +31,9 @@ if("${UNICORN_BUILD_TYPE}" MATCHES "Editor")
     target_link_libraries(UnicornEditor PUBLIC Extern Engine Editor)
     
 elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
-    #add_subdirectory("client")
+    add_subdirectory("client")
 
-    add_executable (UnicornClient "client/unicornclient.cpp" "animation/manager/animationmanager.h")
+    add_executable (UnicornClient "client/unicornclient.cpp")
 
     target_include_directories(UnicornClient PUBLIC
                                "${PROJECT_BINARY_DIR}"
@@ -47,7 +43,7 @@ elseif("${UNICORN_BUILD_TYPE}" MATCHES "Client")
                                "${PROJECT_SOURCE_DIR}/src/client"
                                )
 
-    target_link_libraries(UnicornClient PUBLIC Extern Engine)
+    target_link_libraries(UnicornClient PUBLIC Extern Engine Game)
 endif()
 
 # TODO: Add tests and install targets if needed.
