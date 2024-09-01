@@ -1,7 +1,7 @@
 #pragma once
 #include <cstdint>
 
-namespace unicore
+namespace Unicorn
 {
     class PageAllocator
     {

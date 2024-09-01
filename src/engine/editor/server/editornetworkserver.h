@@ -4,7 +4,7 @@
 
 namespace uniengine
 {
-    class EditorNetworkServer : public unicore::NetworkServer
+    class EditorNetworkServer : public Unicorn::NetworkServer
     {
         // void Init();
     };

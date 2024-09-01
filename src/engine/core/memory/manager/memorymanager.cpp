@@ -1,6 +1,6 @@
 #include "memorymanager.h"
 
-namespace unicore
+namespace Unicorn
 {
     void MemoryManager::Startup()
     {

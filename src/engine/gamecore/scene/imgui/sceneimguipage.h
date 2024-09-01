@@ -8,8 +8,8 @@ namespace unigamecore
     {
     public:
         void Update() override;
-        inline const char* GetMenu() override { return "System"; }
-        inline const char* GetMenuItem() override { return "Scene"; }
+        inline const char* GetMenu() override { return "GameCore"; }
+        inline const char* GetMenuItem() override { return "Scene"; } 
     private:
 
     };

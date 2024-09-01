@@ -1,2 +1,7 @@
+[SourceExplorer.ignore]
+.git/
+.vs/
+out/
+
 [SearchableFiles.include]
 *

@@ -28,4 +28,4 @@
 
 #include "engine/core/filesystem/filesystem.h"
 
-namespace ucc = unicore;
+namespace ucc = Unicorn;

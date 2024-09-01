@@ -1,29 +1,51 @@
 #include "inputmanager.h"
 
-#include "platform/windows/windowsplatform.h"
+#include "core/logging/log.h"
 #include "core/memory/memory.h"
+
+#include "platform/windows/windowsplatform.h"
 
 #include <hidusage.h>
 #include <strsafe.h>
 #include <iostream>
 
-namespace uninput
+#include "input/imgui/inputimguipage.h"
+
+namespace Unicorn
 {
+    void InputManager::Init()
+    {
+        assert(ms_Instance == nullptr);
+        ms_Instance = this;
+    }
+
     void InputManager::Startup()
     {
-        RAWINPUTDEVICE Rid[2];
+        InputImguiPage* page = ucNew(InputImguiPage);
+        ucd::ImguiManager::GetInstance()->AddPage(page);
 
-        Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;          // HID_USAGE_PAGE_GENERIC
-        Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;              // HID_USAGE_GENERIC_MOUSE
+
+        constexpr int NUM_DEVICES = 2;
+        RAWINPUTDEVICE Rid[NUM_DEVICES];
+
+        Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC;
+        Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE;
         Rid[0].dwFlags = 0;
         Rid[0].hwndTarget = nullptr;
 
-        Rid[1].usUsagePage = HID_USAGE_PAGE_GENERIC;          // HID_USAGE_PAGE_GENERIC
-        Rid[1].usUsage = HID_USAGE_GENERIC_KEYBOARD;              // HID_USAGE_GENERIC_KEYBOARD
+        Rid[1].usUsagePage = HID_USAGE_PAGE_GENERIC;
+        Rid[1].usUsage = HID_USAGE_GENERIC_KEYBOARD;
         Rid[1].dwFlags = 0;
         Rid[1].hwndTarget = nullptr;
 
-        if (RegisterRawInputDevices(Rid, 2, sizeof(Rid[0])) == FALSE)
+        // TODO: learn HID drivers
+        // https://learn.microsoft.com/en-us/windows-hardware/drivers/hid/interpreting-hid-reports
+		// Rid[2].usUsagePage = HID_USAGE_PAGE_GENERIC;
+		// Rid[2].usUsage = HID_USAGE_GENERIC_GAMEPAD;
+		// Rid[2].dwFlags = 0;
+		// Rid[2].hwndTarget = nullptr;
+
+        if (RegisterRawInputDevices(Rid, NUM_DEVICES, sizeof(Rid[0])) == FALSE)
         {
             //registration failed. Call GetLastError for the cause of the error
         }
@@ -34,6 +56,8 @@ namespace uninput
     void InputManager::Update()
     {
         m_Keyboard.SwapBuffer();
+
+		m_Gamepads.Update();
     }
 
     void InputManager::Shutdown()
@@ -49,8 +73,10 @@ namespace uninput
         LPBYTE lpb = ucNewArray(BYTE, dwSize);
         if (lpb == nullptr)
         {
+            // TODO error out here
             return;
         }
+
         if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, lpb, &dwSize, sizeof(RAWINPUTHEADER)) != dwSize)
         {
             OutputDebugString(TEXT("GetRawInputData does not return correct size !\n"));
@@ -58,7 +84,7 @@ namespace uninput
 
         RAWINPUT* raw = reinterpret_cast<RAWINPUT*>(lpb);
 
-        TCHAR szTempOutput[512];
+        // TCHAR szTempOutput[512];
 
         if (raw->header.dwType == RIM_TYPEKEYBOARD)
         {
@@ -109,49 +135,11 @@ namespace uninput
             // }
             // std::cout << (szTempOutput) << std::endl;
         }
+        else
+        {
+            ucLogDebug("I am a %d!", raw->header.dwType);
+        }
 
         ucDeleteArray(lpb, dwSize);
-    }
-
-    bool KeyboardInput::GetKey(uint32_t index) const
-    {
-        uint32_t a = m_CurrentBuffer;
-        return m_KeyArray[a].GetKey(index);
-    }
-    
-    bool KeyboardInput::GetKeyDown(uint32_t index) const
-    {
-        uint32_t a = m_CurrentBuffer;
-        uint32_t b = (m_CurrentBuffer + 1) % 2;
-
-        return m_KeyArray[a].GetKey(index) && !m_KeyArray[b].GetKey(index);
-    }
-
-    bool KeyboardInput::GetKeyUp(uint32_t index) const
-    {
-        uint32_t a = m_CurrentBuffer;
-        uint32_t b = (m_CurrentBuffer + 1) % 2;
-
-        return !m_KeyArray[a].GetKey(index) && m_KeyArray[b].GetKey(index);
-    }
-
-    void KeyboardInput::SwapBuffer()
-    {
-        uint32_t a = m_CurrentBuffer;
-        uint32_t b = (m_CurrentBuffer + 1) % 2;
-
-        m_KeyArray[b] = m_KeyArray[a];
-        m_CurrentBuffer = (m_CurrentBuffer + 1) % 2;
-    }
-
-
-    void KeyboardInput::SetKey(uint32_t index)
-    {
-        m_KeyArray[m_CurrentBuffer].SetKey(index);
-    }
-
-    void KeyboardInput::UnsetKey(uint32_t index)
-    {
-        m_KeyArray[m_CurrentBuffer].UnsetKey(index);
     }
 }

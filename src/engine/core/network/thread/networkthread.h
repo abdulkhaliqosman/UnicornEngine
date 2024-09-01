@@ -4,7 +4,7 @@
 #include "core/container/list.h"
 #include "core/thread/base/threadbase.h"
 
-namespace unicore
+namespace Unicorn
 {
     constexpr int PACKET_LENGTH = 512;
 

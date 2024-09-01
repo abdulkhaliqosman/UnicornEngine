@@ -11,7 +11,7 @@ VOID CALLBACK FileSystemFileIOCompletionRoutine(
 	// g_BytesTransferred = dwNumberOfBytesTransfered;
 }
 
-namespace unicore
+namespace Unicorn
 {
 	void FileSystem::OpenFile(const TCHAR* path)
 	{

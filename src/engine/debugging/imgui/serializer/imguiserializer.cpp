@@ -64,6 +64,11 @@ namespace unidebug
         ImGui::InputScalarN(name, ImGuiDataType_Float, &val.GetData(), 4);
     }
 
+    void ImguiSerializer::Serialize(const char* name, ucc::Quaternion4f& val)
+    {
+        ImGui::InputScalarN(name, ImGuiDataType_Float, &val.GetData(), 4);
+    }
+
     void ImguiSerializer::Serialize(const char* name, ucc::Matrix4x4f&)
     {
 

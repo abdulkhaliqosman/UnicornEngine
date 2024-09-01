@@ -8,7 +8,7 @@ namespace unigamecore
     class SceneManager
     {
     public:
-        static SceneManager* GetInstance() { return ms_Instance; }
+        static SceneManager& GetInstance() { return *ms_Instance; }
 
         void Init();
         void Startup();

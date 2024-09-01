@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace unicore
+namespace Unicorn
 {
     using String = std::string;
 }

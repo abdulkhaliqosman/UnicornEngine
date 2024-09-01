@@ -1,7 +1,7 @@
 #include "core/network/thread/networkthread.h"
 #include <stdio.h>
 
-namespace unicore
+namespace Unicorn
 {
     void NetworkThread::Init()
     {

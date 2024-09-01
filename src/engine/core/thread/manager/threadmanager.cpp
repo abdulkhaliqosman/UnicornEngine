@@ -2,7 +2,7 @@
 #include <process.h>
 #include "core/coreheader.h"
 
-namespace unicore
+namespace Unicorn
 {
     unsigned __stdcall ThreadFunc(void* pArguments)
     {

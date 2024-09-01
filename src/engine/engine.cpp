@@ -48,6 +48,9 @@ namespace uniengine
 
         m_SceneManager.Init();
 
+        m_InputManager.SetWindowsPlatform(m_WindowsPlatform);
+        m_InputManager.Init();
+
         m_State = EngineState::Startup;
     }
 
@@ -65,7 +68,6 @@ namespace uniengine
         m_MemoryManager.Startup();
         m_ThreadManager.Startup();
 
-        m_InputManager.SetWindowsPlatform(m_WindowsPlatform);
         m_InputManager.Startup();
 
         m_EditorServer.Init();

@@ -2,7 +2,7 @@
 
 #include "core/thread/base/threadbase.h"
 
-namespace unicore
+namespace Unicorn
 {
     class JobBase;
     class JobThread : public ThreadBase

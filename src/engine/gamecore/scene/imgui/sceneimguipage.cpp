@@ -1,4 +1,3 @@
-#pragma once
 #include "sceneimguipage.h"
 #include "imgui.h"
 #include "scene/manager/scenemanager.h"
@@ -11,8 +10,8 @@ namespace unigamecore
     {
         if (ImGui::Begin("Scene"))
         {
-            SceneManager* mgr = SceneManager::GetInstance();
-            Scene* scene = mgr->GetActiveScene();
+            SceneManager& mgr = SceneManager::GetInstance();
+            Scene* scene = mgr.GetActiveScene();
             ucd::ImguiSerializer& ser = ucd::ImguiManager::GetSerializer();
             ser.SerializeObject(scene);
 

@@ -5,7 +5,7 @@
 
 #pragma comment(lib, "Ws2_32.lib")
 
-namespace unicore
+namespace Unicorn
 {
     constexpr const char DEFAULT_PORT[] = "27016";
 

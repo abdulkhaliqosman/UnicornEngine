@@ -2,7 +2,7 @@
 
 #include "core/math/math.h"
 
-namespace unicore
+namespace Unicorn
 {
 	class Transform
 	{
@@ -11,7 +11,7 @@ namespace unicore
 		static Matrix4x4f Translation(const Vector4f& position);
 		static Matrix4x4f Scale(const Vector4f& scale);
 
-		static Matrix4x4f Rotation(float pitch, float yaw, float roll);
+		static Matrix4x4f Rotation(float pitchRad, float yawRad, float rollRad);
 		static Matrix4x4f Rotation(const Quaternion4f& rot);
 
 		static Matrix4x4f RotationPitch(float pitch);

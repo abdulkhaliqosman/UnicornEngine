@@ -2,7 +2,7 @@
 
 #include "core/serializer/serializer.h"
 
-namespace unicore
+namespace Unicorn
 {
     using InstanceID = uint64_t;
     using ClassID = uint64_t;

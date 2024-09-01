@@ -1,6 +1,6 @@
 #include "core/coreheader.h"
 
-namespace unicore
+namespace Unicorn
 {
     class JobBase
     {

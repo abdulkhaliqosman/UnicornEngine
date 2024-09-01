@@ -2,7 +2,7 @@
 
 #include "core/network/base/networkbase.h"
 
-namespace unicore
+namespace Unicorn
 {
     class NetworkClient : public NetworkBase
     {

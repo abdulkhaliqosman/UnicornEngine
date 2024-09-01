@@ -1,7 +1,7 @@
 #include "pageallocator.h"
 #include <Windows.h>
 
-namespace unicore
+namespace Unicorn
 {
     void PageAllocator::Startup()
     {

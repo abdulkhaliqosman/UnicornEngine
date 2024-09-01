@@ -3,7 +3,7 @@
 #include <fstream> //TODO: Don't use fstream
 #include <stdio.h>
 
-namespace unicore
+namespace Unicorn
 {
 	using FilePtr = void*;
 

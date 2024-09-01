@@ -1,6 +1,6 @@
 #pragma once
 
-namespace unicore
+namespace Unicorn
 {
     static constexpr float PI = 3.141592653589793238f;
 
@@ -17,9 +17,14 @@ namespace unicore
         float y;
     };
 
-    struct Vector4uc
+    struct Vector4u8
     {
         uint8_t data[4];
+    };
+
+    struct Vector2i16
+    {
+        int16_t data[2];
     };
 }
 

@@ -5,6 +5,7 @@ namespace unigamecore
 {
     void SceneManager::Init()
     {
+        assert(ms_Instance == nullptr);
         ms_Instance = this;
     }
 

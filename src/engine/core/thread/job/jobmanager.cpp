@@ -1,6 +1,6 @@
 #include "jobmanager.h"
 
-namespace unicore
+namespace Unicorn
 {
 
 }

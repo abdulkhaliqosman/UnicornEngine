@@ -1,9 +1,11 @@
 #pragma once
-#include "core/math/vector4f.h"
 
-namespace unicore
+#include "core/math/vector4f.h"
+#include <cmath>
+
+namespace Unicorn
 {
-	class Quaternion4f : Vector4f
+	class Quaternion4f : private Vector4f
 	{
 	public:
 		inline Quaternion4f() : Vector4f(){}
@@ -13,6 +15,8 @@ namespace unicore
 		inline float GetJ() const { return GetY(); }
 		inline float GetK() const { return GetZ(); }
 		inline float GetReal() const{ return GetW(); }
+
+		inline __m128& GetData() { return Vector4f::GetData(); }
 
 		Quaternion4f GetConjugate() const;
 		float GetNorm() const;

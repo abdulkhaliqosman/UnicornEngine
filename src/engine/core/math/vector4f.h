@@ -4,7 +4,7 @@
 
 #include <immintrin.h>
 
-namespace unicore
+namespace Unicorn
 {
 	class Vector4f
 	{

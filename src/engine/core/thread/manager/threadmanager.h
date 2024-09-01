@@ -2,7 +2,7 @@
 
 #include "core/container/list.h"
 
-namespace unicore
+namespace Unicorn
 {
     class JobThread;
     class ThreadBase;

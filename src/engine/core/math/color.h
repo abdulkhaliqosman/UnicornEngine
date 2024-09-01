@@ -1,6 +1,6 @@
 #pragma once
 
-namespace unicore
+namespace Unicorn
 {
     struct ColorRGB
     {

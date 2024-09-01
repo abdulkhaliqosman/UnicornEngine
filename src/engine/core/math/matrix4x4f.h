@@ -1,7 +1,7 @@
 #pragma once
 #include "vector4f.h"
 
-namespace unicore
+namespace Unicorn
 {
 	class Matrix4x4f
 	{

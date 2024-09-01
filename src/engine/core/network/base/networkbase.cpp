@@ -1,7 +1,7 @@
 #include "networkbase.h"
 #include "core/memory/memory.h"
 
-namespace unicore
+namespace Unicorn
 {
     NetworkBase::~NetworkBase()
     {

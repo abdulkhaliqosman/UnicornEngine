@@ -193,7 +193,7 @@ namespace uniassets
                 {
                     cgltf_uint v[4];
                     cgltf_accessor_read_uint(accessor, a, v, element_size);
-                    vertices[a].joints = ucc::Vector4uc{ (uint8_t)v[0], (uint8_t)v[1],(uint8_t)v[2], (uint8_t)v[3] };
+                    vertices[a].joints = ucc::Vector4u8{ (uint8_t)v[0], (uint8_t)v[1],(uint8_t)v[2], (uint8_t)v[3] };
                 }
                 break;
             }

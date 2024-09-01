@@ -6,7 +6,7 @@
 #include "core/math/matrix4x4f.h"
 #include "core/container/string.h"
 
-namespace unicore
+namespace Unicorn
 {
     class Object;
 

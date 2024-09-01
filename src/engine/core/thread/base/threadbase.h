@@ -2,7 +2,7 @@
 
 #include "Windows.h"
 
-namespace unicore
+namespace Unicorn
 {
     class ThreadBase
     {

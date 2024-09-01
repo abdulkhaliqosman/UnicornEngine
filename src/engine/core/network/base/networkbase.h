@@ -2,7 +2,7 @@
 
 #include "core/network/thread/networkthread.h"
 
-namespace unicore
+namespace Unicorn
 {
     class NetworkBase
     {
